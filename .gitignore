@@ -1,0 +1,8 @@
+.vscode
+.vscode
+*.xlsx
+*.pyc
+*/__pycache__/*
+**/migrations/**
+*.sqlite3
+**/media/**
