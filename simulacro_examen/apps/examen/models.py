@@ -1,5 +1,7 @@
 from django.db import models
 
+from apps.usuario.models import Alumno, Docente
+
 # Create your models here.
 
 class Universidad(models.Model):
@@ -73,6 +75,7 @@ class Pregunta(models.Model):
     contenido = models.CharField(max_length=300, null=False)
 
     curso = models.ForeignKey("Curso", on_delete=models.SET_NULL, null=True)
+    docente = models.ForeignKey(Docente, on_delete=models.SET_NULL, null=True)
     # examen_pregunta = models.ForeignKey("ExamenPregunta", on_delete=models.SET_NULL, null=True)
     class Meta:
         verbose_name = "Pregunta"
@@ -93,8 +96,8 @@ class ResultadoExamen(models.Model):
     nota_obtenida = models.DecimalField(max_digits=4, decimal_places=3)
     puntaje_obtenido = models.DecimalField(max_digits=4, decimal_places=3)
 
-    examen = models.ForeignField("Examen", on_delete=models.SET_NULL, null=True)
-    alumno = models.ForeignField("Alumno", on_delete=models.SET_NULL, null=True)
+    examen = models.ForeignKey("Examen", on_delete=models.SET_NULL, null=True)
+    alumno = models.ForeignKey(Alumno, on_delete=models.SET_NULL, null=True)
     class Meta:
         verbose_name = "Resultado Examen"
         verbose_name_plural = "Resultados Examenes"

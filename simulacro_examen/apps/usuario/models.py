@@ -14,7 +14,7 @@ class Usuario(models.Model):
     apellido_materno = models.CharField(max_length=200, null=False)
     correo_electronico = models.CharField(max_length=200, null=False)
     celular = models.CharField(max_length=9, null=True, blank=True, default="000000000")
-    tipo_usuario = models.CharField(blank=False, null=False, default="alumno", choices=TIPO_USUARIO)
+    tipo_usuario = models.CharField(max_length=13, blank=False, null=False, default="alumno", choices=TIPO_USUARIO)
 
     usuario = models.OneToOneField(User, on_delete=models.SET_NULL, null=True)
 
