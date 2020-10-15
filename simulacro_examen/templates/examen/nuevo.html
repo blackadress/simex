@@ -4,7 +4,94 @@
 {% endblock %}
 
 {% block content %}
-<h2>asdf</h2>
+<div class="container">
+  <h2>Nuevo Examen</h2>
+
+  <form action="." method="post">
+    <div class="row">
+      <div class="form-group col-sm">
+        <label for="nombre">Nombre Examen</label>
+        <input
+          type="text"
+          class="form-control"
+          id="nombre"
+          placeholder="Examen admisión de exonerados"
+        />
+      </div>
+      <div class="form-group col-sm">
+        <label for="tipo">Tipo de Examen</label>
+        <input
+          type="text"
+          class="form-control"
+          id="tipo"
+          placeholder="Exonerados"
+        />
+      </div>
+      <div class="form-group col-sm">
+        <label for="duracion">Duración en minutos</label>
+        <input
+          type="number"
+          class="form-control"
+          id="duracion"
+          placeholder="60"
+        />
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-sm">
+        <label for="notaMaxima">Nota Máxima</label>
+        <input
+          type="text"
+          class="form-control"
+          id="notaMaxima"
+          placeholder="100.0"
+        />
+      </div>
+      <div class="form-group col-sm">
+        <label for="puntajeMaximo">Puntaje Máximo</label>
+        <input
+          type="text"
+          class="form-control"
+          id="puntajeMaximo"
+          placeholder="20.0"
+        />
+      </div>
+      <div class="form-group col-sm">
+        <label for="universidad">Universidad</label>
+          <select class="form-control" id="exampleFormControlSelect1">
+            {% for universidad in universidades %}
+              <option value="{{ universidad.id }}">
+                {{ universidad.nombre }}
+              </option>
+            {% endfor %}
+          </select>
+      </div>
+    </div>
+      <div class="form-group col-sm">
+        <label for="asdf">asdf</label>
+        <input
+          type="text"
+          class="form-control"
+          id="asdf"
+          aria-describedby="asdfHelp"
+          placeholder="asdf"
+        />
+      </div>
+      <div class="form-group col-sm">
+        <label for="asdf">asdf</label>
+        <input
+          type="text"
+          class="form-control"
+          id="asdf"
+          aria-describedby="asdfHelp"
+          placeholder="asdf"
+        />
+      </div>
+    <button type="submit" class="btn btn-primary btn-lg">Guardar</button>
+  </form>
+</div>
+
+<h1>TODO add cursos, valores de cada curso y preguntas</h1>
 {% endblock %}
 
 {% block scripts %}

@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views import View
 from django.views.generic import ListView
 
-from apps.examen.models import Universidad, Facultad, EscuelaProfesional, Examen, ExamenPregunta, Curso, TipoPuntuacion, Pregunta, Alternativa, ResultadoExamen
+from apps.examen.models import Universidad, Facultad, EscuelaProfesional, Examen, ExamenPregunta, Curso, CursoExamen, Pregunta, Alternativa, ResultadoExamen
 
 # Create your views here.
 class ViewUniversidadNuevo(View):
@@ -48,7 +48,10 @@ class ViewFacultadNuevo(View):
     template_name = 'facultad/nuevo.html'
 
     def get(self, request, *args, **kwargs):
-        context = {}
+        universidades = Universidad.objects.all()
+        context = {
+            "universidades": universidades
+        }
         return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
@@ -87,7 +90,19 @@ class ViewEscuelaNuevo(View):
     template_name = 'escuela/nuevo.html'
 
     def get(self, request, *args, **kwargs):
-        context = {}
+        facultades = Facultad.objects.all()
+        facultades_formated = []
+        for facultad in facultades:
+            aux = {
+                'id': facultad.id,
+                'nombre': facultad.nombre,
+                'universidad': facultad.universidad.nombre,
+            }
+            facultades_formated.append(aux)
+
+        context = {
+            "facultades": facultades_formated
+        }
         return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):

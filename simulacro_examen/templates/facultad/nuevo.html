@@ -4,7 +4,34 @@
 {% endblock %}
 
 {% block content %}
-<h2>asdf</h2>
+<div class="container">
+  <h2>Nueva Facultad</h2>
+
+  <form action="." method="post">
+    <div class="row">
+      <div class="form-group col-sm">
+        <label for="nombre">Nombre de facultad</label>
+        <input
+          type="text"
+          class="form-control"
+          id="nombre"
+          placeholder="Facultad de ingeniería"
+        />
+      </div>
+      <div class="form-group col-sm">
+        <label for="universidad">Universidad</label>
+          <select class="form-control" id="universidad">
+            {% for universidad in universidades %}
+              <option value="{{ universidad.id }}">
+                {{ universidad.sigla }}
+              </option>
+            {% endfor %}
+          </select>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary btn-lg">Guardar</button>
+  </form>
+</div>
 {% endblock %}
 
 {% block scripts %}

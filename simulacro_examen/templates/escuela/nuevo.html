@@ -4,7 +4,34 @@
 {% endblock %}
 
 {% block content %}
-<h2>asdf</h2>
+<div class="container">
+  <h2>Nueva Escuela Profesional</h2>
+
+  <form action="." method="post">
+    <div class="row">
+      <div class="form-group col-sm">
+        <label for="nombre">Escuela Profesional</label>
+        <input
+          type="text"
+          class="form-control"
+          id="nombre"
+          placeholder="Ingeniería de Sistemas"
+        />
+      </div>
+      <div class="form-group col-sm">
+        <label for="facultad">Facultad</label>
+        <select class="form-control" id="facultad">
+          {% for facultad in facultades %}
+            <option value={{ facultad.id }}>
+              {{ facultad.universidad }} -- {{ facultad.nombre }}
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary btn-lg">Guardar</button>
+  </form>
+</div>
 {% endblock %}
 
 {% block scripts %}

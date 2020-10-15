@@ -52,13 +52,14 @@ class ExamenPregunta(models.Model):
 
 class Curso(models.Model):
     nombre = models.CharField(max_length=200, null=False)
-    cantidad_preguntas = models.IntegerField()
+    siglas = models.CharField(max_length=200, null=False)
 
     class Meta:
         verbose_name = "Curso"
         verbose_name_plural = "Cursos"
 
-class TipoPuntuacion(models.Model):
+class CursoExamen(models.Model):
+    cantidad_preguntas = models.IntegerField()
     favor = models.DecimalField(max_digits=3, decimal_places=3)
     contra = models.DecimalField(max_digits=3, decimal_places=3)
     sin_responder = models.DecimalField(max_digits=3, decimal_places=3)
@@ -67,8 +68,8 @@ class TipoPuntuacion(models.Model):
     examen = models.ForeignKey("Examen", on_delete=models.SET_NULL, null=True)
 
     class Meta:
-        verbose_name = "Tipo Puntuacion"
-        verbose_name_plural = "Tipos de Puntuacion"
+        verbose_name = "Curso de examen"
+        verbose_name_plural = "Cursos de examen"
 
 class Pregunta(models.Model):
     nombre = models.CharField(max_length=200, null=False)

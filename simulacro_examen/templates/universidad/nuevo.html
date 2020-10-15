@@ -4,7 +4,33 @@
 {% endblock %}
 
 {% block content %}
-<h2>asdf</h2>
+<div class="container">
+  <h2>Nueva Universidad</h2>
+
+  <form action="." method="post">
+    <div class="row">
+      <div class="form-group col-sm">
+        <label for="nombre">Nombre de Universidad</label>
+        <input
+          type="text"
+          class="form-control"
+          id="nombre"
+          placeholder="Universidad San Cristobal de Huamanga"
+        />
+      </div>
+      <div class="form-group col-sm">
+        <label for="siglas">Siglas</label>
+        <input
+          type="text"
+          class="form-control"
+          id="siglas"
+          placeholder="UNSCH"
+        />
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary btn-lg">Guardar</button>
+  </form>
+</div>
 {% endblock %}
 
 {% block scripts %}
