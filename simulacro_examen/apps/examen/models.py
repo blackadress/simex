@@ -14,7 +14,7 @@ class Universidad(models.Model):
 class Facultad(models.Model):
     nombre = models.CharField(max_length=200, null=False)
 
-    universidad = models.ForeignKey(Universidad, on_delete=models.SET_NULL, null=True)
+    universidad = models.ForeignKey("Universidad", on_delete=models.SET_NULL, null=True)
     class Meta:
         verbose_name = "Facultad"
         verbose_name_plural = "Facultades"
@@ -22,7 +22,7 @@ class Facultad(models.Model):
 class EscuelaProfesional(models.Model):
     nombre = models.CharField(max_length=200, null=False)
 
-    facultad = models.ForeignKey(Facultad, on_delete=models.SET_NULL, null=True)
+    facultad = models.ForeignKey("Facultad", on_delete=models.SET_NULL, null=True)
 
     class Meta:
         verbose_name = "Escuela Profesional"
@@ -35,7 +35,7 @@ class Examen(models.Model):
     nota_maxima = models.DecimalField(max_digits=4, decimal_places=3)
     puntaje_maximo = models.DecimalField(max_digits=4, decimal_places=3)
 
-    universidad = models.ForeignKey(Universidad, on_delete=models.SET_NULL, null=True)
+    universidad = models.ForeignKey("Universidad", on_delete=models.SET_NULL, null=True)
     # examen_pregunta = models.ForeignKey("ExamenPregunta", on_delete=models.SET_NULL, null=True)
 
     class Meta:
