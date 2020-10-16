@@ -7,7 +7,7 @@
 <h2>Listado de Alumnos</h2>
 {% for docente in page_obj %}
     {# Each "contact" is a Contact model object. #}
-    {% comment %}{{ docente.usuario|upper }}<br>{% endcomment %}
+    {{ docente.usuario|upper }}<br>
     ...
 {% endfor %}
 

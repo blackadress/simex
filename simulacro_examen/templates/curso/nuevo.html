@@ -8,6 +8,7 @@
   <h2>Nuevo Curso</h2>
 
   <form action="." method="post">
+    {% csrf_token %}
     <div class="row">
       <div class="form-group col-sm">
         <label for="curso">Nombre Curso</label>
@@ -15,6 +16,7 @@
           type="text"
           class="form-control"
           id="curso"
+          name="curso"
           aria-describedby="cursoHelp"
           placeholder="Fisica I"
         />
@@ -25,6 +27,7 @@
           type="text"
           class="form-control"
           id="siglas"
+          name="siglas"
           placeholder="FS01"
         />
       </div>

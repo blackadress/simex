@@ -6,6 +6,7 @@ from apps.usuario.models import Alumno, Docente
 
 class Universidad(models.Model):
     nombre = models.CharField(max_length=200, null=False)
+    siglas = models.CharField(max_length=200, null=False)
 
     class Meta:
         verbose_name = "Universidad"
