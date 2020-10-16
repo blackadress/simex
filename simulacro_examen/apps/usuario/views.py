@@ -20,6 +20,7 @@ class ViewAlumnoNuevo(View):
         return render(request, self.template_name, context)
 
 class ViewAlumnoListar(ListView):
+    template_name = 'alumno/listar.html'
     paginate_by = 10
     model = Alumno
 
@@ -59,6 +60,7 @@ class ViewDocenteNuevo(View):
         return render(request, self.template_name, context)
 
 class ViewDocenteListar(ListView):
+    template_name = 'docente/listar.html'
     paginate_by = 10
     model = Docente
 

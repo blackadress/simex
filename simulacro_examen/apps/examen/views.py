@@ -18,6 +18,7 @@ class ViewUniversidadNuevo(View):
         return render(request, self.template_name, context)
 
 class ViewUniversidadListar(ListView):
+    template_name = 'universidad/listar.html'
     paginate_by = 10
     model = Universidad
 
@@ -60,6 +61,7 @@ class ViewFacultadNuevo(View):
         return render(request, self.template_name, context)
 
 class ViewFacultadListar(ListView):
+    template_name = 'facultad/listar.html'
     paginate_by = 10
     model = Facultad
 
@@ -111,6 +113,7 @@ class ViewEscuelaNuevo(View):
         return render(request, self.template_name, context)
 
 class ViewEscuelaListar(ListView):
+    template_name = 'escuela/listar.html'
     paginate_by = 10
     model = EscuelaProfesional
 
@@ -150,6 +153,7 @@ class ViewExamenNuevo(View):
         return render(request, self.template_name, context)
 
 class ViewExamenListar(ListView):
+    template_name = 'examen/listar.html'
     paginate_by = 10
     model = Examen
 
@@ -189,6 +193,7 @@ class ViewCursoNuevo(View):
         return render(request, self.template_name, context)
 
 class ViewCursoListar(ListView):
+    template_name = 'curso/listar.html'
     paginate_by = 10
     model = Curso
 
@@ -228,6 +233,7 @@ class ViewPreguntaNuevo(View):
         return render(request, self.template_name, context)
 
 class ViewPreguntaListar(ListView):
+    template_name = 'pregunta/listar.html'
     paginate_by = 10
     model = Pregunta
 
@@ -267,6 +273,7 @@ class ViewResultadoNuevo(View):
         return render(request, self.template_name, context)
 
 class ViewResultadoListar(ListView):
+    template_name = 'resultado/listar.html'
     paginate_by = 10
     model = ResultadoExamen
 
