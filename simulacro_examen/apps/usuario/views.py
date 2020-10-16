@@ -16,6 +16,14 @@ class ViewAlumnoNuevo(View):
 
     def post(self, request, *args, **kwargs):
         form = request.POST
+        nombres = form['nombres']
+        apellido_paterno = form['apPaterno']
+        apellido_materno = form['apMaterno']
+        email = form['email']
+        celular = form['celular']
+        usuario = form['usuario']
+        password = form['password']
+
         context = {}
         return render(request, self.template_name, context)
 

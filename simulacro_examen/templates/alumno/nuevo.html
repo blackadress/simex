@@ -7,6 +7,7 @@
   <h2>Alumno Nuevo</h2>
 
   <form action="." method="post">
+    {% csrf_token %}
     <div class="row">
       <div class="form-group col-sm">
         <label for="nombres">Nombres</label>
@@ -14,8 +15,10 @@
           type="text"
           class="form-control"
           id="nombres"
+          name="nombres"
           aria-describedby="nombresHelp"
           placeholder="Nombres"
+          required
         />
         <small id="nombresHelp" class="form-text text-muted"
           >Ingrese los nombres</small
@@ -27,8 +30,10 @@
           type="text"
           class="form-control"
           id="apPaterno"
+          name="apPaterno"
           aria-describedby="apPaternoHelp"
           placeholder="Apellido Paterno"
+          required
         />
         <small id="apPaternoHelp" class="form-text text-muted"
           >Ingrese el apellido paterno</small
@@ -40,8 +45,10 @@
           type="text"
           class="form-control"
           id="apMaterno"
+          name="apMaterno"
           aria-describedby="apMaternoHelp"
           placeholder="Apellido Paterno"
+          required
         />
         <small id="apMaternoHelp" class="form-text text-muted"
           >Ingrese el apellido materno</small
@@ -55,8 +62,10 @@
           type="email"
           class="form-control"
           id="email"
+          name="email"
           aria-describedby="emailHelp"
           placeholder="ejemplo@ex.com"
+          required
         />
         <small id="emailHelp" class="form-text text-muted"
           >Nosotros no compartiremos esta información</small
@@ -68,8 +77,10 @@
           type="text"
           class="form-control"
           id="celular"
+          name="celular"
           aria-describedby="celularHelp"
           placeholder="999111222"
+          required
         />
         <small id="celularHelp" class="form-text text-muted"
           >Nosotros no compartiremos esta información</small
@@ -83,8 +94,10 @@
           type="text"
           class="form-control"
           id="usuario"
+          name="usuario"
           aria-describedby="usuarioHelp"
           placeholder="usuario_ejemplo"
+          required
         />
         <small id="usuarioHelp" class="form-text text-muted"
           >El nombre de usuario no puede tener espacios</small
@@ -96,7 +109,9 @@
           type="password"
           class="form-control"
           id="password"
+          name="password"
           placeholder="******"
+          required
         />
       </div>
       <div class="form-group col-sm">
@@ -106,6 +121,7 @@
           class="form-control"
           id="password2"
           placeholder="******"
+          required
         />
       </div>
     </div>
