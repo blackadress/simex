@@ -60,15 +60,126 @@
 
       <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAlumnos" aria-expanded="true" aria-controls="collapseAlumnos">
           <i class="fas fa-fw fa-cog"></i>
-          <span>Components</span>
+          <span>Alumnos</span>
         </a>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div id="collapseAlumnos" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Custom Components:</h6>
-            <a class="collapse-item" href="buttons.html">Buttons</a>
-            <a class="collapse-item" href="cards.html">Cards</a>
+            <h6 class="collapse-header">Módulo alumnos:</h6>
+            <a class="collapse-item" href="{% url 'usuario:view_alumno_nuevo' %}">Nuevo</a>
+            <a class="collapse-item" href="{% url 'usuario:view_alumno_listar' %}">Listar</a>
+          </div>
+        </div>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseDocente" aria-expanded="true" aria-controls="collapseDocente">
+          <i class="fas fa-fw fa-cog"></i>
+          <span>Docentes</span>
+        </a>
+        <div id="collapseDocente" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Módulo docentes:</h6>
+            <a class="collapse-item" href="{% url 'usuario:view_docente_nuevo' %}">Nuevo</a>
+            <a class="collapse-item" href="{% url 'usuario:view_docente_listar' %}">Listar</a>
+          </div>
+        </div>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUniversidad" aria-expanded="true" aria-controls="collapseUniversidad">
+          <i class="fas fa-fw fa-cog"></i>
+          <span>Universidad</span>
+        </a>
+        <div id="collapseUniversidad" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Módulo universidades:</h6>
+            <a class="collapse-item" href="{% url 'examen:view_universidad_nuevo' %}">Nuevo</a>
+            <a class="collapse-item" href="{% url 'examen:view_universidad_listar' %}">Listar</a>
+          </div>
+        </div>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFacultad" aria-expanded="true" aria-controls="collapseFacultad">
+          <i class="fas fa-fw fa-cog"></i>
+          <span>Facultad</span>
+        </a>
+        <div id="collapseFacultad" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Módulo facultades:</h6>
+            <a class="collapse-item" href="{% url 'examen:view_facultad_nuevo' %}">Nuevo</a>
+            <a class="collapse-item" href="{% url 'examen:view_facultad_listar' %}">Listar</a>
+          </div>
+        </div>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseEscuela" aria-expanded="true" aria-controls="collapseEscuela">
+          <i class="fas fa-fw fa-cog"></i>
+          <span>Escuela</span>
+        </a>
+        <div id="collapseEscuela" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Módulo Escuelas:</h6>
+            <a class="collapse-item" href="{% url 'examen:view_escuela_nuevo' %}">Nuevo</a>
+            <a class="collapse-item" href="{% url 'examen:view_escuela_listar' %}">Listar</a>
+          </div>
+        </div>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCurso" aria-expanded="true" aria-controls="collapseCurso">
+          <i class="fas fa-fw fa-cog"></i>
+          <span>Cursos</span>
+        </a>
+        <div id="collapseCurso" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Módulo cursos:</h6>
+            <a class="collapse-item" href="{% url 'examen:view_curso_nuevo' %}">Nuevo</a>
+            <a class="collapse-item" href="{% url 'examen:view_curso_listar' %}">Listar</a>
+          </div>
+        </div>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePregunta" aria-expanded="true" aria-controls="collapsePregunta">
+          <i class="fas fa-fw fa-cog"></i>
+          <span>Pregunta</span>
+        </a>
+        <div id="collapsePregunta" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Módulo preguntas:</h6>
+            <a class="collapse-item" href="{% url 'examen:view_pregunta_nuevo' %}">Nuevo</a>
+            <a class="collapse-item" href="{% url 'examen:view_pregunta_listar' %}">Listar</a>
+          </div>
+        </div>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseExamen" aria-expanded="true" aria-controls="collapseExamen">
+          <i class="fas fa-fw fa-cog"></i>
+          <span>Examen</span>
+        </a>
+        <div id="collapseExamen" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Módulo exámenes:</h6>
+            <a class="collapse-item" href="{% url 'examen:view_examen_nuevo' %}">Nuevo</a>
+            <a class="collapse-item" href="{% url 'examen:view_examen_listar' %}">Listar</a>
+          </div>
+        </div>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#asdf" aria-expanded="true" aria-controls="asdf">
+          <i class="fas fa-fw fa-cog"></i>
+          <span>Resultado</span>
+        </a>
+        <div id="asdf" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Módulo resultados:</h6>
+            <a class="collapse-item" href="{% url 'examen:view_resultado_listar' %}">Listar</a>
           </div>
         </div>
       </li>
