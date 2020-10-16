@@ -8,6 +8,7 @@
   <h2>Nuevo Examen</h2>
 
   <form action="." method="post">
+    {% csrf_token %}
     <div class="row">
       <div class="form-group col-sm">
         <label for="nombre">Nombre Examen</label>
@@ -15,6 +16,7 @@
           type="text"
           class="form-control"
           id="nombre"
+          name="nombre"
           placeholder="Examen admisión de exonerados"
         />
       </div>
@@ -24,6 +26,7 @@
           type="text"
           class="form-control"
           id="tipo"
+          name="tipo"
           placeholder="Exonerados"
         />
       </div>
@@ -33,6 +36,7 @@
           type="number"
           class="form-control"
           id="duracion"
+          name="duracion"
           placeholder="60"
         />
       </div>
@@ -44,6 +48,7 @@
           type="text"
           class="form-control"
           id="notaMaxima"
+          name="notaMaxima"
           placeholder="100.0"
         />
       </div>
@@ -53,12 +58,13 @@
           type="text"
           class="form-control"
           id="puntajeMaximo"
+          name="puntajeMaximo"
           placeholder="20.0"
         />
       </div>
       <div class="form-group col-sm">
         <label for="universidad">Universidad</label>
-          <select class="form-control" id="exampleFormControlSelect1">
+          <select class="form-control" id="universidad" name="universidad">
             {% for universidad in universidades %}
               <option value="{{ universidad.id }}">
                 {{ universidad.nombre }}
@@ -73,6 +79,7 @@
           type="text"
           class="form-control"
           id="asdf"
+          name="asdf"
           aria-describedby="asdfHelp"
           placeholder="asdf"
         />
@@ -83,6 +90,7 @@
           type="text"
           class="form-control"
           id="asdf"
+          name="asdf"
           aria-describedby="asdfHelp"
           placeholder="asdf"
         />

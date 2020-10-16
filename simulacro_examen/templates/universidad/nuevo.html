@@ -8,6 +8,7 @@
   <h2>Nueva Universidad</h2>
 
   <form action="." method="post">
+    {% csrf_token %}
     <div class="row">
       <div class="form-group col-sm">
         <label for="nombre">Nombre de Universidad</label>
@@ -15,6 +16,7 @@
           type="text"
           class="form-control"
           id="nombre"
+          name="nombre"
           placeholder="Universidad San Cristobal de Huamanga"
         />
       </div>
@@ -24,6 +26,7 @@
           type="text"
           class="form-control"
           id="siglas"
+          name="siglas"
           placeholder="UNSCH"
         />
       </div>

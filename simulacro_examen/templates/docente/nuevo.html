@@ -9,6 +9,7 @@
   <h2>Docente Nuevo</h2>
 
   <form action="." method="post">
+    {% csrf_token %}
     <div class="row">
       <div class="form-group col-sm">
         <label for="nombres">Nombres</label>
@@ -16,6 +17,7 @@
           type="text"
           class="form-control"
           id="nombres"
+          name="nombres"
           aria-describedby="nombresHelp"
           placeholder="Nombres"
         />
@@ -29,6 +31,7 @@
           type="text"
           class="form-control"
           id="apPaterno"
+          name="apPaterno"
           aria-describedby="apPaternoHelp"
           placeholder="Apellido Paterno"
         />
@@ -42,6 +45,7 @@
           type="text"
           class="form-control"
           id="apMaterno"
+          name="apMaterno"
           aria-describedby="apMaternoHelp"
           placeholder="Apellido Paterno"
         />
@@ -56,6 +60,7 @@
         <input
           type="email"
           class="form-control"
+          name="email"
           id="email"
           aria-describedby="emailHelp"
           placeholder="ejemplo@ex.com"
@@ -70,6 +75,7 @@
           type="text"
           class="form-control"
           id="celular"
+          name="celular"
           aria-describedby="celularHelp"
           placeholder="999111222"
         />
@@ -85,6 +91,7 @@
           type="text"
           class="form-control"
           id="usuario"
+          name="usuario"
           aria-describedby="usuarioHelp"
           placeholder="usuario_ejemplo"
         />
@@ -98,6 +105,7 @@
           type="password"
           class="form-control"
           id="password"
+          name="password"
           placeholder="******"
         />
       </div>
