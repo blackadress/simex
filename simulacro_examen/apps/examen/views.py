@@ -92,6 +92,10 @@ class ViewFacultadListadoFiltrar(View):
         context = {}
         return render(request, self.template_name, context)
 
+    def post(self, request, *args, **kwargs):
+        context = {}
+        return render(request, self.template_name, context)
+
 class ViewFacultadUD(View):
     template_name = 'facultad/detalles.html'
 
@@ -159,6 +163,17 @@ class ViewEscuelaListar(ListView):
     paginate_by = 10
     model = EscuelaProfesional
 
+class ViewEscuelaListadoFiltrar(View):
+    template_name = 'escuela/lista_filtrar.html'
+
+    def get(self, request, *args, **kwargs):
+        context = {}
+        return render(request, self.template_name, context)
+
+    def post(self, request, *args, **kwargs):
+        context = {}
+        return render(request, self.template_name, context)
+
 class ViewEscuelaUD(View):
     template_name = 'escuela/detalles.html'
 
@@ -201,7 +216,12 @@ class ViewExamenListar(ListView):
 
 class ViewExamenListadoFiltrar(View):
     template_name = 'examen/lista_filtrar.html'
+
     def get(self, request, *args, **kwargs):
+        context = {}
+        return render(request, self.template_name, context)
+
+    def post(self, request, *args, **kwargs):
         context = {}
         return render(request, self.template_name, context)
 
@@ -292,6 +312,17 @@ class ViewPreguntaListar(ListView):
     paginate_by = 10
     model = Pregunta
 
+class ViewPreguntaListadoFiltrar(View):
+    template_name = 'pregunta/lista_filtrar.html'
+
+    def get(self, request, *args, **kwargs):
+        context = {}
+        return render(request, self.template_name, context)
+
+    def post(self, request, *args, **kwargs):
+        context = {}
+        return render(request, self.template_name, context)
+
 class ViewPreguntaUD(View):
     template_name = 'pregunta/detalles.html'
 
@@ -331,6 +362,17 @@ class ViewResultadoListar(ListView):
     template_name = 'resultado/listar.html'
     paginate_by = 10
     model = ResultadoExamen
+
+class ViewResultadoListadoFiltrar(View):
+    template_name = 'resultado/lista_filtrar.html'
+
+    def get(self, request, *args, **kwargs):
+        context = {}
+        return render(request, self.template_name, context)
+
+    def post(self, request, *args, **kwargs):
+        context = {}
+        return render(request, self.template_name, context)
 
 class ViewResultadoUD(View):
     template_name = 'resultado/detalles.html'
