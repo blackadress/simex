@@ -6,18 +6,18 @@
 {% block content %}
 <div class="container">
   <h2>Nuevo Curso</h2>
+  <h3 style="color: green">{{ msg }}</h3>
 
   <form action="." method="post">
     {% csrf_token %}
     <div class="row">
       <div class="form-group col-sm">
-        <label for="curso">Nombre Curso</label>
+        <label for="nombre">Nombre Curso</label>
         <input
           type="text"
           class="form-control"
-          id="curso"
-          name="curso"
-          aria-describedby="cursoHelp"
+          id="nombre"
+          name="nombre"
           placeholder="Fisica I"
         />
       </div>

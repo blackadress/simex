@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.shortcuts import render
 from django.views import View
 from django.views.generic import ListView
@@ -23,8 +24,24 @@ class ViewAlumnoNuevo(View):
         celular = form['celular']
         usuario = form['usuario']
         password = form['password']
+        user = User.objects.create_user(username=usuario, email=email, password=password)
+        usuario = Usuario.objects.create(
+            nombres=nombres,
+            apellido_paterno=apellido_paterno,
+            apellido_materno=apellido_materno,
+            correo_electronico=email,
+            celular=celular,
+            tipo_usuario="alumno",
+            usuario=user
+        )
+        alumno = Alumno.objects.create(
+            usuario=usuario
+        )
+        msg = "Datos de alumno guardados exitosamente"
 
-        context = {}
+        context = {
+            "msg": msg
+        }
         return render(request, self.template_name, context)
 
 class ViewAlumnoListar(ListView):
@@ -64,7 +81,31 @@ class ViewDocenteNuevo(View):
 
     def post(self, request, *args, **kwargs):
         form = request.POST
-        context = {}
+        nombres = form['nombres']
+        apellido_paterno = form['apPaterno']
+        apellido_materno = form['apMaterno']
+        email = form['email']
+        celular = form['celular']
+        usuario = form['usuario']
+        password = form['password']
+        user = User.objects.create_user(username=usuario, email=email, password=password)
+        usuario = Usuario.objects.create(
+            nombres=nombres,
+            apellido_paterno=apellido_paterno,
+            apellido_materno=apellido_materno,
+            correo_electronico=email,
+            celular=celular,
+            tipo_usuario="docente",
+            usuario=user
+        )
+        docente = Docente.objects.create(
+            usuario=usuario
+        )
+        msg = "Datos de docente guardados exitosamente"
+
+        context = {
+            "msg": msg
+        }
         return render(request, self.template_name, context)
 
 class ViewDocenteListar(ListView):

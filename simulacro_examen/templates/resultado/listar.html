@@ -4,12 +4,39 @@
 {% endblock %}
 
 {% block content %}
-<h2>Listado de Alumnos</h2>
-{% for alumno in page_obj %}
-    {# Each "contact" is a Contact model object. #}
-    {{ alumno.usuario|upper }}<br>
-    ...
-{% endfor %}
+<h2>Listado de Resultados</h2>
+<table class="table table-striped table-bordered">
+  <thead>
+    <tr>
+      <th scope="col">Universidad</th>
+      <th scope="col">Examen</th>
+      <th scope="col">Alumno</th>
+      <th scope="col">Duración (s)</th>
+      <th scope="col">Nota</th>
+      <th scope="col">Puntaje</th>
+      <th scope="col">Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for resultado in page_obj %}
+        <tr>
+          <td>{{ resultado.examen.universidad.nombre }}</td>
+          <td>{{ resultado.examen.nombre_examen }}</td>
+          <td>{{ resultado.alumno.usuario.appellido_paterno|upper }} {{ resultado.alumno.usuario.appellido_materno|upper }} {{ resultado.alumno.usuario.nombres }}</td>
+          <td>{{ resultado.nombres }}</td>
+          <td>{{ resultado.correo_electronico }}</td>
+          <td>{{ resultado.celular }}</td>
+          <td>
+            <a class="btn btn-warning" href="{% url 'usuario:view_resultado_UD' pk=resultado.id %}" role="button">
+              <i class="fas fa-fw fa-pen"></i>
+              Detalles
+            </a>
+          </td>
+        </tr>
+        
+    {% endfor %}
+  </tbody>
+</table>
 
 <div class="pagination">
     <span class="step-links">

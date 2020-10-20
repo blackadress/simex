@@ -14,7 +14,18 @@ class ViewUniversidadNuevo(View):
 
     def post(self, request, *args, **kwargs):
         form = request.POST
-        context = {}
+        nombre = form['nombre']
+        siglas = form['siglas']
+        Universidad.objects.create(
+            nombre=nombre,
+            siglas=siglas,
+        )
+        msg = "Datos de universidad guardados correctamente"
+
+        context = {
+            "msg": msg
+        }
+
         return render(request, self.template_name, context)
 
 class ViewUniversidadListar(ListView):
@@ -57,13 +68,29 @@ class ViewFacultadNuevo(View):
 
     def post(self, request, *args, **kwargs):
         form = request.POST
-        context = {}
+        nombre = form['nombre']
+        universidad_id = form['universidad']
+        Facultad.objects.create(nombre=nombre, universidad_id=universidad_id)
+        universidades = Universidad.objects.all()
+
+        msg = "Datos de facultad guardados correctamente"
+        context = {
+            "msg": msg,
+            "universidades": universidades
+        }
         return render(request, self.template_name, context)
 
 class ViewFacultadListar(ListView):
     template_name = 'facultad/listar.html'
     paginate_by = 10
     model = Facultad
+
+class ViewFacultadListadoFiltrar(View):
+    template_name = 'facultad/lista_filtrar.html'
+
+    def get(self, request, *args, **kwargs):
+        context = {}
+        return render(request, self.template_name, context)
 
 class ViewFacultadUD(View):
     template_name = 'facultad/detalles.html'
@@ -92,16 +119,7 @@ class ViewEscuelaNuevo(View):
     template_name = 'escuela/nuevo.html'
 
     def get(self, request, *args, **kwargs):
-        facultades = Facultad.objects.all()
-        facultades_formated = []
-        for facultad in facultades:
-            aux = {
-                'id': facultad.id,
-                'nombre': facultad.nombre,
-                'universidad': facultad.universidad.nombre,
-            }
-            facultades_formated.append(aux)
-
+        facultades_formated = self.facultades_formated()
         context = {
             "facultades": facultades_formated
         }
@@ -109,8 +127,32 @@ class ViewEscuelaNuevo(View):
 
     def post(self, request, *args, **kwargs):
         form = request.POST
-        context = {}
+        nombre = form['nombre']
+        facultad_id = form['facultad']
+        EscuelaProfesional.objects.create(nombre=nombre, facultad_id=facultad_id)
+        msg = "Datos de escuela profesional guardados"
+        facultades_formated = self.facultades_formated()
+
+        context = {
+            "facultades": facultades_formated,
+            "msg": msg,
+        }
         return render(request, self.template_name, context)
+    
+    def facultades_formated(self):
+        facultades = Facultad.objects.all()
+        facultades_formated = []
+        for facultad in facultades:
+            aux = {
+                'id': facultad.id,
+                'nombre': facultad.nombre,
+                'universidad': facultad.universidad.siglas,
+            }
+            facultades_formated.append(aux)
+
+        return facultades_formated
+
+
 
 class ViewEscuelaListar(ListView):
     template_name = 'escuela/listar.html'
@@ -157,6 +199,12 @@ class ViewExamenListar(ListView):
     paginate_by = 10
     model = Examen
 
+class ViewExamenListadoFiltrar(View):
+    template_name = 'examen/lista_filtrar.html'
+    def get(self, request, *args, **kwargs):
+        context = {}
+        return render(request, self.template_name, context)
+
 class ViewExamenUD(View):
     template_name = 'examen/detalles.html'
 
@@ -189,7 +237,14 @@ class ViewCursoNuevo(View):
 
     def post(self, request, *args, **kwargs):
         form = request.POST
-        context = {}
+        nombre = form['nombre']
+        siglas = form['siglas']
+        Curso.objects.create(nombre=nombre, siglas=siglas)
+        msg = "Datos de curso guardados"
+
+        context = {
+            "msg": msg
+        }
         return render(request, self.template_name, context)
 
 class ViewCursoListar(ListView):

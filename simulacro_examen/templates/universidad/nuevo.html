@@ -6,6 +6,7 @@
 {% block content %}
 <div class="container">
   <h2>Nueva Universidad</h2>
+  <h3 style="color: green">{{ msg }}</h3>
 
   <form action="." method="post">
     {% csrf_token %}

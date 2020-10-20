@@ -4,12 +4,32 @@
 {% endblock %}
 
 {% block content %}
-<h2>Listado de Alumnos</h2>
-{% for curso in page_obj %}
-    {# Each "contact" is a Contact model object. #}
-    {{ curso.usuario|upper }}<br>
-    ...
-{% endfor %}
+<h2>Listado de Cursos</h2>
+<table class="table table-striped table-bordered">
+  <thead>
+    <tr>
+      <th scope="col">Nombres</th>
+      <th scope="col">Siglas</th>
+      <th scope="col">Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for curso in page_obj %}
+        {# Each "contact" is a Contact model object. #}
+        <tr>
+          <td>{{ curso.nombre }}</td>
+          <td>{{ curso.siglas }}</td>
+          <td>
+            <a class="btn btn-warning" href="{% url 'examen:view_curso_UD' pk=curso.id %}" role="button">
+              <i class="fas fa-fw fa-pen"></i>
+              Detalles
+            </a>
+          </td>
+        </tr>
+        
+    {% endfor %}
+  </tbody>
+</table>
 
 <div class="pagination">
     <span class="step-links">

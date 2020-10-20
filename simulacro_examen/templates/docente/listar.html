@@ -4,13 +4,41 @@
 {% endblock %}
 
 {% block content %}
-<h2>Listado de Alumnos</h2>
-{% for docente in page_obj %}
-    {# Each "contact" is a Contact model object. #}
-    {{ docente.usuario|upper }}<br>
-    ...
-{% endfor %}
+<h2>Listado de Docentes</h2>
 
+<table class="table table-striped table-bordered">
+  <thead>
+    <tr>
+      <th scope="col">Apellidos</th>
+      <th scope="col">Nombres</th>
+      <th scope="col">Correo electrónico</th>
+      <th scope="col">Celular</th>
+      <th scope="col">Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for docente in page_obj %}
+        {# Each "contact" is a Contact model object. #}
+        <tr>
+          <td>{{ docente.usuario.apellido_paterno }} {{ docente.usuario.apellido_materno }}</td>
+          <td>{{ docente.usuario.nombres }}</td>
+          <td>{{ docente.usuario.correo_electronico }}</td>
+          <td>{{ docente.usuario.celular }}</td>
+          <td>
+            <a class="btn btn-warning" href="{% url 'usuario:view_docente_UD' pk=docente.id %}" role="button">
+              <i class="fas fa-fw fa-pen"></i>
+              Detalles
+            </a>
+            <a class="btn btn-danger" href="#" role="button">
+              <i class="fas fa-fw fa-trash-alt"></i>
+              Borrar
+            </a>
+          </td>
+        </tr>
+        
+    {% endfor %}
+  </tbody>
+</table>
 <div class="pagination">
     <span class="step-links">
         {% if page_obj.has_previous %}
