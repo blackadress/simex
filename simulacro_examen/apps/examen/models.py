@@ -40,7 +40,7 @@ class Examen(models.Model):
     # examen_pregunta = models.ForeignKey("ExamenPregunta", on_delete=models.SET_NULL, null=True)
 
     class Meta:
-        verbose_name = "Examen"
+        vposeerbose_name = "Examen"
         verbose_name_plural = "Examenes"
 
 class ExamenPregunta(models.Model):

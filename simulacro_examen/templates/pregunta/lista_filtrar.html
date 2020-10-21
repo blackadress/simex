@@ -1,0 +1,73 @@
+{% extends 'base/base.html' %}
+
+{% block styles %}
+{% endblock %}
+
+{% block content %}
+<h2>Listado de Preguntas</h2>
+<form action="." method="post">
+  {% csrf_token %}
+  <div class="row">
+    <div class="form-group col-sm">
+      <label for="curso">Curso</label>
+        <select class="form-control" id="curso" name="curso">
+          {% for curso in cursos %}
+            <option value="{{ curso.id }}">
+              {{ curso.nombre }}
+            </option>
+          {% endfor %}
+        </select>
+    </div>
+  </div>
+
+  <button type="submit" class="btn btn-primary btn-lg">Buscar</button>
+</form>
+<table class="table table-striped table-bordered">
+  <thead>
+    <tr>
+      <th scope="col">Curso</th>
+      <th scope="col">Nombre</th>
+      <th scope="col">Docente</th>
+      <th scope="col">Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for pregunta in page_obj %}
+        {# Each "contact" is a Contact model object. #}
+        <tr>
+          <td>{{ pregunta.curso.nombre }}</td>
+          <td>{{ pregunta.nombre }}</td>
+          <td>{{ pregunta.docente.usuario.apellido_paterno|upper }} {{ pregunta.docente.usuario.apellido_materno|upper }} {{ pregunta.docente.usuario.nombres }}</td>
+          <td>
+            <a class="btn btn-warning" href="{% url 'examen:view_pregunta_UD' pk=pregunta.id %}" role="button">
+              <i class="fas fa-fw fa-pen"></i>
+              Detalles
+            </a>
+          </td>
+        </tr>
+        
+    {% endfor %}
+  </tbody>
+</table>
+
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}

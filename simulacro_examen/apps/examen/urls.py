@@ -16,7 +16,7 @@ urlpatterns = [
 
     path('examen-nuevo/', views.ViewExamenNuevo.as_view(), name='view_examen_nuevo'),
     path('examen-listar/', views.ViewExamenListar.as_view(), name='view_examen_listar'),
-    path('examen-buscar/', views.ViewExamenListadoFiltrar.as_view(), name='view_examen_listar'),
+    path('examen-buscar/', views.ViewExamenListadoFiltrar.as_view(), name='view_examen_lista_filtrar'),
     path('examen-listar/<int:pk>', views.ViewExamenUD.as_view(), name='view_examen_UD'),
 
     path('facultad-nuevo/', views.ViewFacultadNuevo.as_view(), name='view_facultad_nuevo'),
