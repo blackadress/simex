@@ -22,7 +22,8 @@ urlpatterns = [
     path('facultad-nuevo/', views.ViewFacultadNuevo.as_view(), name='view_facultad_nuevo'),
     path('facultad-listar/', views.ViewFacultadListar.as_view(), name='view_facultad_listar'),
     path('facultad-buscar/', views.ViewFacultadListadoFiltrar.as_view(), name='view_facultad_lista_filtrar'),
-    path('facultad-listar/<int:pk>', views.ViewFacultadUD.as_view(), name='view_facultad_UD'),
+    path('facultad-buscar/<int:universidad_pk>/', views.ViewFacultadFiltrarPages.as_view(), name='view_facultad_lista_pages'),
+    path('facultad-listar/<int:pk>/', views.ViewFacultadUD.as_view(), name='view_facultad_UD'),
 
     path('pregunta-nuevo/', views.ViewPreguntaNuevo.as_view(), name='view_pregunta_nuevo'),
     path('pregunta-listar/', views.ViewPreguntaListar.as_view(), name='view_pregunta_listar'),

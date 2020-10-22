@@ -1,6 +1,8 @@
+from django.core.paginator import Paginator
 from django.shortcuts import render
 from django.views import View
 from django.views.generic import ListView
+from simulacro_examen.settings import OBJ_PER_PAGE
 
 from apps.examen.models import Universidad, Facultad, EscuelaProfesional, Examen, ExamenPregunta, Curso, CursoExamen, Pregunta, Alternativa, ResultadoExamen
 
@@ -89,12 +91,29 @@ class ViewFacultadListadoFiltrar(View):
     template_name = 'facultad/lista_filtrar.html'
 
     def get(self, request, *args, **kwargs):
-        context = {}
+        universidades = Universidad.objects.all()
+        context = {
+            "universidades": universidades
+        }
         return render(request, self.template_name, context)
 
-    def post(self, request, *args, **kwargs):
-        context = {}
+class ViewFacultadFiltrarPages(View):
+    template_name = 'facultad/lista_filtrar.html'
+
+    def get(self, request, *args, **kwargs):
+        page = request.GET['page']
+        universidad_id = kwargs['universidad_pk']
+        facultades = Facultad.objects.filter(universidad_id=universidad_id).order_by('id')
+        universidades = Universidad.objects.all()
+        paginator = Paginator(facultades, OBJ_PER_PAGE)
+        page_obj = paginator.get_page(page)
+
+        context = {
+            "universidades": universidades,
+            "page_obj": page_obj,
+        }
         return render(request, self.template_name, context)
+
 
 class ViewFacultadUD(View):
     template_name = 'facultad/detalles.html'
@@ -155,8 +174,6 @@ class ViewEscuelaNuevo(View):
             facultades_formated.append(aux)
 
         return facultades_formated
-
-
 
 class ViewEscuelaListar(ListView):
     template_name = 'escuela/listar.html'
