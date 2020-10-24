@@ -1,4 +1,5 @@
 {% extends 'base/base.html' %}
+{% load static %}
 
 {% block styles %}
 {% endblock %}
@@ -6,23 +7,21 @@
 {% block content %}
 <h2>Listado de Facultades</h2>
 
-<form>
-  {% csrf_token %}
-  <div class="row">
-    <div class="form-group col-sm-12 col-md-3">
-      <label for="universidad">Universidad</label>
-        <select class="form-control" id="universidad" name="universidad">
-          {% for universidad in universidades %}
-            <option value="{{ universidad.id }}">
-              {{ universidad.siglas }}
-            </option>
-          {% endfor %}
-        </select>
-    </div>
+<div class="row">
+  <div class="form-group col-sm-12 col-md-3">
+    <label for="universidad">Universidad</label>
+      <select class="form-control" id="universidad" name="universidad">
+        
+        {% for universidad in universidades %}
+          <option value="{{ universidad.id }}">
+            {{ universidad.siglas }}
+          </option>
+        {% endfor %}
+      </select>
   </div>
+</div>
 
-  <button id="filterButton" type="submit" class="btn btn-primary btn-lg">Buscar</button>
-</form>
+<button id="filterButton" type="submit" class="btn btn-primary btn-lg">Buscar</button>
 
 <table class="table table-striped table-bordered">
   <thead>
@@ -70,16 +69,5 @@
 {% endblock %}
 
 {% block scripts %}
-<script>
-  let button = document.querySelector("#filterButton")
-  button.addEventListener("click", e => {
-    e.preventDefault()
-    const universidad_id = document.querySelector("#universidad").value
-    localStorage.setItem('universidad_id', universidad_id)
-    const hostname = window.location.hostname
-    // const new_direction = `${hostname}/examen/facultad-listar/${universidad_id}/?page=1`
-    const new_direction = `${universidad_id}/?page=1`
-    location.replace(new_direction)
-  })
-</script>
+<script src="{% static 'js/templates/facultad/filtrar.js' %}"></script>
 {% endblock %}

@@ -1,4 +1,5 @@
 from django.core.paginator import Paginator
+from django.http import JsonResponse
 from django.shortcuts import render
 from django.views import View
 from django.views.generic import ListView
@@ -138,6 +139,21 @@ class ViewFacultadUD(View):
         context = {}
         return render(request, self.template_name, context)
 
+class APIGetFacultadesByUniversidadId(View):
+    def get(self, request, *args, **kwargs):
+        universidad_id = kwargs['universidad_id']
+        facultades = Facultad.objects.filter(universidad_id=universidad_id)
+        
+        facultades_json = []
+        for facultad in facultades:
+            facultad_json = {
+                "id": facultad.id,
+                "nombre": facultad.nombre,
+            }
+            facultades_json.append(facultad_json)
+
+        return JsonResponse(facultades_json, safe=False)
+
 class ViewEscuelaNuevo(View):
     template_name = 'escuela/nuevo.html'
 
@@ -184,12 +200,29 @@ class ViewEscuelaListadoFiltrar(View):
     template_name = 'escuela/lista_filtrar.html'
 
     def get(self, request, *args, **kwargs):
-        context = {}
+        universidades = Universidad.objects.all()
+        context = {
+            "universidades": universidades
+        }
         return render(request, self.template_name, context)
 
-    def post(self, request, *args, **kwargs):
-        context = {}
+class ViewEscuelaFiltrarPages(View):
+    template_name = 'escuela/lista_filtrar.html'
+
+    def get(self, request, *args, **kwargs):
+        page = request.GET['page']
+        facultad_id = kwargs['facultad_pk']
+        escuelas = EscuelaProfesional.objects.filter(facultad_id=facultad_id).order_by('id')
+        universidades = Universidad.objects.all()
+        paginator = Paginator(escuelas, OBJ_PER_PAGE)
+        page_obj = paginator.get_page(page)
+
+        context = {
+            'universidades': universidades,
+            'page_obj': page_obj,
+        }
         return render(request, self.template_name, context)
+
 
 class ViewEscuelaUD(View):
     template_name = 'escuela/detalles.html'
@@ -235,11 +268,27 @@ class ViewExamenListadoFiltrar(View):
     template_name = 'examen/lista_filtrar.html'
 
     def get(self, request, *args, **kwargs):
-        context = {}
+        universidades = Universidad.objects.all()
+        context = {
+            "universidades": universidades,
+        }
         return render(request, self.template_name, context)
 
-    def post(self, request, *args, **kwargs):
-        context = {}
+class ViewExamenFiltrarPages(View):
+    template_name = 'examen/lista_filtrar.html'
+
+    def get(self, request, *args, **kwargs):
+        page = request.GET['page']
+        universidad_id = kwargs['universidad_id']
+        examenes = Universidad.objects.filter(universidad_id=universidad_id).order_by('id')
+        universidades = Universidad.objects.all()
+        paginator = Paginator(examenes, OBJ_PER_PAGE)
+        page_obj = paginator.get_page(page)
+
+        context = {
+            "universidades": universidades,
+            "page_obj": page_obj,
+        }
         return render(request, self.template_name, context)
 
 class ViewExamenUD(View):
@@ -333,11 +382,27 @@ class ViewPreguntaListadoFiltrar(View):
     template_name = 'pregunta/lista_filtrar.html'
 
     def get(self, request, *args, **kwargs):
-        context = {}
+        cursos = CursoExamen.objects.all()
+        context = {
+            "cursos": cursos
+        }
         return render(request, self.template_name, context)
 
-    def post(self, request, *args, **kwargs):
-        context = {}
+class ViewPreguntaFiltrarPages(View):
+    template_name = 'pregunta/lista_filtrar.html'
+
+    def get(self, request, *args, **kwargs):
+        page = request.GET['page']
+        curso_id = kwargs['curso_id']
+        preguntas = Pregunta.objects.filter(curso_id=curso_id).order_by('id')
+        cursos = CursoExamen.objects.all()
+        paginator = Paginator(preguntas, OBJ_PER_PAGE)
+        page_obj = paginator.get_page(page)
+
+        context = {
+            "cursos": cursos,
+            "page_obj": page_obj,
+        }
         return render(request, self.template_name, context)
 
 class ViewPreguntaUD(View):
@@ -384,11 +449,27 @@ class ViewResultadoListadoFiltrar(View):
     template_name = 'resultado/lista_filtrar.html'
 
     def get(self, request, *args, **kwargs):
-        context = {}
+        universidades = Universidad.objects.all()
+        context = {
+            "universidades": universidades,
+        }
         return render(request, self.template_name, context)
 
-    def post(self, request, *args, **kwargs):
-        context = {}
+class ViewResultadosFiltrarPages(View):
+    template_name = 'resultado/lista_filtrar.html'
+
+    def get(self, request, *args, **kwargs):
+        page = request.GET['page']
+        alumno_id = kwargs['alumno_pk']
+        resultados = ResultadoExamen.objects.filter(alumno).order_by('id')
+        universidades = Universidad.objects.all()
+        paginator = Paginator(resultados, OBJ_PER_PAGE)
+        page_obj = paginator.get_page(page)
+
+        context = {
+            "universidades": universidades,
+            "page_obj": page_obj,
+        }
         return render(request, self.template_name, context)
 
 class ViewResultadoUD(View):
