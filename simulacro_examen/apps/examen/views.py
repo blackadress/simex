@@ -6,6 +6,7 @@ from django.views.generic import ListView
 from simulacro_examen.settings import OBJ_PER_PAGE
 
 from apps.examen.models import Universidad, Facultad, EscuelaProfesional, Examen, ExamenPregunta, Curso, CursoExamen, Pregunta, Alternativa, ResultadoExamen
+from apps.usuario.models import Alumno
 
 # Create your views here.
 class ViewUniversidadNuevo(View):
@@ -279,8 +280,8 @@ class ViewExamenFiltrarPages(View):
 
     def get(self, request, *args, **kwargs):
         page = request.GET['page']
-        universidad_id = kwargs['universidad_id']
-        examenes = Universidad.objects.filter(universidad_id=universidad_id).order_by('id')
+        universidad_id = kwargs['universidad_pk']
+        examenes = Examen.objects.filter(universidad_id=universidad_id).order_by('id')
         universidades = Universidad.objects.all()
         paginator = Paginator(examenes, OBJ_PER_PAGE)
         page_obj = paginator.get_page(page)
@@ -382,7 +383,7 @@ class ViewPreguntaListadoFiltrar(View):
     template_name = 'pregunta/lista_filtrar.html'
 
     def get(self, request, *args, **kwargs):
-        cursos = CursoExamen.objects.all()
+        cursos = Curso.objects.all()
         context = {
             "cursos": cursos
         }
@@ -395,7 +396,7 @@ class ViewPreguntaFiltrarPages(View):
         page = request.GET['page']
         curso_id = kwargs['curso_id']
         preguntas = Pregunta.objects.filter(curso_id=curso_id).order_by('id')
-        cursos = CursoExamen.objects.all()
+        cursos = Curso.objects.all()
         paginator = Paginator(preguntas, OBJ_PER_PAGE)
         page_obj = paginator.get_page(page)
 
@@ -455,13 +456,22 @@ class ViewResultadoListadoFiltrar(View):
         }
         return render(request, self.template_name, context)
 
-class ViewResultadosFiltrarPages(View):
+class ViewResultadoFiltrarPages(View):
     template_name = 'resultado/lista_filtrar.html'
 
     def get(self, request, *args, **kwargs):
         page = request.GET['page']
-        alumno_id = kwargs['alumno_pk']
-        resultados = ResultadoExamen.objects.filter(alumno).order_by('id')
+        universidad_id = kwargs['universidad_id']
+        alumno = Alumno.objects.filter(usuario=request.user)
+        if not alumno[0]:
+            # return 404
+            return 404
+
+        resultados = ResultadoExamen.objects.filter(
+            alumno=alumno,
+            universidad_id=universidad_id
+        ).order_by('id')
+
         universidades = Universidad.objects.all()
         paginator = Paginator(resultados, OBJ_PER_PAGE)
         page_obj = paginator.get_page(page)

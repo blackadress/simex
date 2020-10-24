@@ -30,11 +30,12 @@ urlpatterns = [
     path('pregunta-nuevo/', views.ViewPreguntaNuevo.as_view(), name='view_pregunta_nuevo'),
     path('pregunta-listar/', views.ViewPreguntaListar.as_view(), name='view_pregunta_listar'),
     path('pregunta-buscar/', views.ViewPreguntaListadoFiltrar.as_view(), name='view_pregunta_lista_filtrar'),
-    path('pregunta-buscar/<int:escuela>/', views.ViewPreguntaFiltrarPages.as_view(), name='view_examen_lista_pages'),
+    path('pregunta-buscar/<int:curso_id>/', views.ViewPreguntaFiltrarPages.as_view(), name='view_examen_lista_pages'),
     path('pregunta-listar/<int:pk>', views.ViewPreguntaUD.as_view(), name='view_pregunta_UD'),
 
     path('resultado-listar/', views.ViewResultadoListar.as_view(), name='view_resultado_listar'),
     path('resultado-buscar/', views.ViewResultadoListadoFiltrar.as_view(), name='view_resultado_lista_filtrar'),
+    path('resultado-buscar/<int:universidad_id>/', views.ViewResultadoFiltrarPages.as_view(), name='view_resultado_filtrar_pages'),
     path('resultado-listar/<int:alumno_pk>/', views.ViewResultadoUD.as_view(), name='view_resultado_UD'),
 
     path('universidad-nuevo/', views.ViewUniversidadNuevo.as_view(), name='view_universidad_nuevo'),
