@@ -5,10 +5,11 @@ from django.views import View
 from django.views.generic import ListView
 from simulacro_examen.settings import OBJ_PER_PAGE
 
+from apps.examen.forms import PreguntaForm
 from apps.examen.models import Universidad, Facultad, EscuelaProfesional, Examen, ExamenPregunta, Curso, CursoExamen, Pregunta, Alternativa, ResultadoExamen
 from apps.usuario.models import Alumno
 
-# Create your views here.
+
 class ViewUniversidadNuevo(View):
     template_name = 'universidad/nuevo.html'
 
@@ -32,10 +33,12 @@ class ViewUniversidadNuevo(View):
 
         return render(request, self.template_name, context)
 
+
 class ViewUniversidadListar(ListView):
     template_name = 'universidad/listar.html'
     paginate_by = 10
     model = Universidad
+
 
 class ViewUniversidadUD(View):
     template_name = 'universidad/detalles.html'
@@ -59,6 +62,7 @@ class ViewUniversidadUD(View):
         universidad = Universidad.objects.delete(pk=pk)
         context = {}
         return render(request, self.template_name, context)
+
 
 class ViewFacultadNuevo(View):
     template_name = 'facultad/nuevo.html'
@@ -84,10 +88,12 @@ class ViewFacultadNuevo(View):
         }
         return render(request, self.template_name, context)
 
+
 class ViewFacultadListar(ListView):
     template_name = 'facultad/listar.html'
     paginate_by = 10
     model = Facultad
+
 
 class ViewFacultadListadoFiltrar(View):
     template_name = 'facultad/lista_filtrar.html'
@@ -99,13 +105,15 @@ class ViewFacultadListadoFiltrar(View):
         }
         return render(request, self.template_name, context)
 
+
 class ViewFacultadFiltrarPages(View):
     template_name = 'facultad/lista_filtrar.html'
 
     def get(self, request, *args, **kwargs):
         page = request.GET['page']
         universidad_id = kwargs['universidad_pk']
-        facultades = Facultad.objects.filter(universidad_id=universidad_id).order_by('id')
+        facultades = Facultad.objects.filter(
+            universidad_id=universidad_id).order_by('id')
         universidades = Universidad.objects.all()
         paginator = Paginator(facultades, OBJ_PER_PAGE)
         page_obj = paginator.get_page(page)
@@ -140,11 +148,12 @@ class ViewFacultadUD(View):
         context = {}
         return render(request, self.template_name, context)
 
+
 class APIGetFacultadesByUniversidadId(View):
     def get(self, request, *args, **kwargs):
         universidad_id = kwargs['universidad_id']
         facultades = Facultad.objects.filter(universidad_id=universidad_id)
-        
+
         facultades_json = []
         for facultad in facultades:
             facultad_json = {
@@ -154,6 +163,7 @@ class APIGetFacultadesByUniversidadId(View):
             facultades_json.append(facultad_json)
 
         return JsonResponse(facultades_json, safe=False)
+
 
 class ViewEscuelaNuevo(View):
     template_name = 'escuela/nuevo.html'
@@ -169,7 +179,8 @@ class ViewEscuelaNuevo(View):
         form = request.POST
         nombre = form['nombre']
         facultad_id = form['facultad']
-        EscuelaProfesional.objects.create(nombre=nombre, facultad_id=facultad_id)
+        EscuelaProfesional.objects.create(
+            nombre=nombre, facultad_id=facultad_id)
         msg = "Datos de escuela profesional guardados"
         facultades_formated = self.facultades_formated()
 
@@ -178,7 +189,7 @@ class ViewEscuelaNuevo(View):
             "msg": msg,
         }
         return render(request, self.template_name, context)
-    
+
     def facultades_formated(self):
         facultades = Facultad.objects.all()
         facultades_formated = []
@@ -192,10 +203,12 @@ class ViewEscuelaNuevo(View):
 
         return facultades_formated
 
+
 class ViewEscuelaListar(ListView):
     template_name = 'escuela/listar.html'
     paginate_by = 10
     model = EscuelaProfesional
+
 
 class ViewEscuelaListadoFiltrar(View):
     template_name = 'escuela/lista_filtrar.html'
@@ -207,13 +220,15 @@ class ViewEscuelaListadoFiltrar(View):
         }
         return render(request, self.template_name, context)
 
+
 class ViewEscuelaFiltrarPages(View):
     template_name = 'escuela/lista_filtrar.html'
 
     def get(self, request, *args, **kwargs):
         page = request.GET['page']
         facultad_id = kwargs['facultad_pk']
-        escuelas = EscuelaProfesional.objects.filter(facultad_id=facultad_id).order_by('id')
+        escuelas = EscuelaProfesional.objects.filter(
+            facultad_id=facultad_id).order_by('id')
         universidades = Universidad.objects.all()
         paginator = Paginator(escuelas, OBJ_PER_PAGE)
         page_obj = paginator.get_page(page)
@@ -248,6 +263,7 @@ class ViewEscuelaUD(View):
         context = {}
         return render(request, self.template_name, context)
 
+
 class ViewExamenNuevo(View):
     template_name = 'examen/nuevo.html'
 
@@ -260,10 +276,12 @@ class ViewExamenNuevo(View):
         context = {}
         return render(request, self.template_name, context)
 
+
 class ViewExamenListar(ListView):
     template_name = 'examen/listar.html'
     paginate_by = 10
     model = Examen
+
 
 class ViewExamenListadoFiltrar(View):
     template_name = 'examen/lista_filtrar.html'
@@ -275,13 +293,15 @@ class ViewExamenListadoFiltrar(View):
         }
         return render(request, self.template_name, context)
 
+
 class ViewExamenFiltrarPages(View):
     template_name = 'examen/lista_filtrar.html'
 
     def get(self, request, *args, **kwargs):
         page = request.GET['page']
         universidad_id = kwargs['universidad_pk']
-        examenes = Examen.objects.filter(universidad_id=universidad_id).order_by('id')
+        examenes = Examen.objects.filter(
+            universidad_id=universidad_id).order_by('id')
         universidades = Universidad.objects.all()
         paginator = Paginator(examenes, OBJ_PER_PAGE)
         page_obj = paginator.get_page(page)
@@ -291,6 +311,7 @@ class ViewExamenFiltrarPages(View):
             "page_obj": page_obj,
         }
         return render(request, self.template_name, context)
+
 
 class ViewExamenUD(View):
     template_name = 'examen/detalles.html'
@@ -315,6 +336,7 @@ class ViewExamenUD(View):
         context = {}
         return render(request, self.template_name, context)
 
+
 class ViewCursoNuevo(View):
     template_name = 'curso/nuevo.html'
 
@@ -334,10 +356,12 @@ class ViewCursoNuevo(View):
         }
         return render(request, self.template_name, context)
 
+
 class ViewCursoListar(ListView):
     template_name = 'curso/listar.html'
     paginate_by = 10
     model = Curso
+
 
 class ViewCursoUD(View):
     template_name = 'curso/detalles.html'
@@ -362,22 +386,39 @@ class ViewCursoUD(View):
         context = {}
         return render(request, self.template_name, context)
 
+
 class ViewPreguntaNuevo(View):
     template_name = 'pregunta/nuevo.html'
 
     def get(self, request, *args, **kwargs):
-        context = {}
+        form = PreguntaForm()
+        context = {
+            "form": form,
+        }
         return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
-        form = request.POST
-        context = {}
+        alt1 = request.POST['alt1']
+        alt2 = request.POST['alt2']
+        alt3 = request.POST['alt3']
+        alt4 = request.POST['alt4']
+        alt5 = request.POST['alt5']
+
+        form = PreguntaForm(request.POST)
+        if form.is_valid():
+            form.save()
+            form = PreguntaForm()
+        context = {
+            'form': form
+        }
         return render(request, self.template_name, context)
+
 
 class ViewPreguntaListar(ListView):
     template_name = 'pregunta/listar.html'
     paginate_by = 10
     model = Pregunta
+
 
 class ViewPreguntaListadoFiltrar(View):
     template_name = 'pregunta/lista_filtrar.html'
@@ -388,6 +429,7 @@ class ViewPreguntaListadoFiltrar(View):
             "cursos": cursos
         }
         return render(request, self.template_name, context)
+
 
 class ViewPreguntaFiltrarPages(View):
     template_name = 'pregunta/lista_filtrar.html'
@@ -405,6 +447,7 @@ class ViewPreguntaFiltrarPages(View):
             "page_obj": page_obj,
         }
         return render(request, self.template_name, context)
+
 
 class ViewPreguntaUD(View):
     template_name = 'pregunta/detalles.html'
@@ -429,6 +472,7 @@ class ViewPreguntaUD(View):
         context = {}
         return render(request, self.template_name, context)
 
+
 class ViewResultadoNuevo(View):
     template_name = 'resultado/nuevo.html'
 
@@ -441,10 +485,12 @@ class ViewResultadoNuevo(View):
         context = {}
         return render(request, self.template_name, context)
 
+
 class ViewResultadoListar(ListView):
     template_name = 'resultado/listar.html'
     paginate_by = 10
     model = ResultadoExamen
+
 
 class ViewResultadoListadoFiltrar(View):
     template_name = 'resultado/lista_filtrar.html'
@@ -455,6 +501,7 @@ class ViewResultadoListadoFiltrar(View):
             "universidades": universidades,
         }
         return render(request, self.template_name, context)
+
 
 class ViewResultadoFiltrarPages(View):
     template_name = 'resultado/lista_filtrar.html'
@@ -482,6 +529,7 @@ class ViewResultadoFiltrarPages(View):
         }
         return render(request, self.template_name, context)
 
+
 class ViewResultadoUD(View):
     template_name = 'resultado/detalles.html'
 
@@ -504,4 +552,3 @@ class ViewResultadoUD(View):
         resultado = ResultadoExamen.objects.delete(pk=pk)
         context = {}
         return render(request, self.template_name, context)
-

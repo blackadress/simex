@@ -29,6 +29,9 @@ class Docente(models.Model):
         verbose_name = "Docente"
         verbose_name_plural = "Docentes"
 
+    def __str__(self):
+        return "{} {}, {}".format(self.usuario.apellido_paterno.upper(), self.usuario.apellido_materno.upper(), self.usuario.nombres)
+
 class Alumno(models.Model):
     usuario = models.OneToOneField(Usuario, on_delete=models.SET_NULL, null=True)
 
