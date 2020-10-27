@@ -76,6 +76,8 @@ class Curso(models.Model):
     nombre = models.CharField(max_length=200, null=False)
     siglas = models.CharField(max_length=200, null=False)
 
+    universidad = models.ForeignKey("Universidad", on_delete=models.SET_NULL, null=True)
+
     class Meta:
         verbose_name = "Curso"
         verbose_name_plural = "Cursos"
@@ -108,12 +110,13 @@ class Pregunta(models.Model):
 
     class Meta:
         verbose_name = "Pregunta"
-        verbose_name_plural = "Contenido"
+        verbose_name_plural = "Preguntas"
 
 
 class Alternativa(models.Model):
     alternativa = models.CharField(max_length=200, null=False)
-    clave = models.CharField(max_length=200, null=False)
+    clave = models.CharField(max_length=200, null=True)
+    correcta = models.BooleanField(default=False)
 
     pregunta = models.ForeignKey(
         "Pregunta", on_delete=models.SET_NULL, null=True)

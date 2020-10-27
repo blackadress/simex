@@ -7,7 +7,7 @@ from simulacro_examen.settings import OBJ_PER_PAGE
 
 from apps.examen.forms import PreguntaForm
 from apps.examen.models import Universidad, Facultad, EscuelaProfesional, Examen, ExamenPregunta, Curso, CursoExamen, Pregunta, Alternativa, ResultadoExamen
-from apps.usuario.models import Alumno
+from apps.usuario.models import Alumno, Docente
 
 
 class ViewUniversidadNuevo(View):
@@ -268,7 +268,15 @@ class ViewExamenNuevo(View):
     template_name = 'examen/nuevo.html'
 
     def get(self, request, *args, **kwargs):
-        context = {}
+        universidades = Universidad.objects.all()
+        cursos = Curso.objects.all()
+        docentes = Docente.objects.all()
+
+        context = {
+            'universidades': universidades,
+            'cursos': cursos,
+            'docentes': docentes,
+        }
         return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
@@ -386,6 +394,17 @@ class ViewCursoUD(View):
         context = {}
         return render(request, self.template_name, context)
 
+class APIGetCursosByUniversidadId(View):
+    def get(self, request, *args, **kwargs):
+        universidad_pk = kwargs['universidad_pk']
+        cursos = Curso.objects.filter(universidad_id=universidad_pk)
+
+        cursos_json = []
+        for curso in cursos:
+            cursos_json.append(cursos)
+
+        return JsonResponse(cursos_json, safe=False)
+
 
 class ViewPreguntaNuevo(View):
     template_name = 'pregunta/nuevo.html'
@@ -406,8 +425,19 @@ class ViewPreguntaNuevo(View):
 
         form = PreguntaForm(request.POST)
         if form.is_valid():
-            form.save()
+            pregunta = form.save()
+            altObj1 = Alternativa.objects.create(
+                alternativa=alt1, correcta=True, pregunta=pregunta)
+            altObj2 = Alternativa.objects.create(
+                alternativa=alt2, pregunta=pregunta)
+            altObj3 = Alternativa.objects.create(
+                alternativa=alt3, pregunta=pregunta)
+            altObj4 = Alternativa.objects.create(
+                alternativa=alt4, pregunta=pregunta)
+            altObj5 = Alternativa.objects.create(
+                alternativa=alt5, pregunta=pregunta)
             form = PreguntaForm()
+
         context = {
             'form': form
         }
@@ -471,6 +501,23 @@ class ViewPreguntaUD(View):
         pregunta = Pregunta.objects.delete(pk=pk)
         context = {}
         return render(request, self.template_name, context)
+
+
+class APIGetPreguntasByDocenteCursoPregunta(View):
+    def get(self, request, *args, **kwargs):
+        docente_pk = kwargs['docente_pk']
+        curso_pk = kwargs['curso_pk']
+        nombre_pregunta = kwargs['nombre_pregunta']
+
+        preguntas = Pregunta.objects.filter()
+
+        preguntas_json = []
+        for pregunta in preguntas:
+            preguntas_json = {
+            }
+            preguntas_json.append(preguntas_json)
+
+        return JsonResponse(preguntas_json, safe=False)
 
 
 class ViewResultadoNuevo(View):

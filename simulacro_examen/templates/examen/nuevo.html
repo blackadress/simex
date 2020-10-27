@@ -65,12 +65,93 @@
       <div class="form-group col-sm">
         <label for="universidad">Universidad</label>
           <select class="form-control" id="universidad" name="universidad">
+            <option value="0">---------</option>
             {% for universidad in universidades %}
               <option value="{{ universidad.id }}">
                 {{ universidad.nombre }}
               </option>
             {% endfor %}
           </select>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col-sm-12 col-md-4">
+        <label for="curso">Curso</label>
+          <select class="form-control" id="curso" name="curso">
+            <option value="0">---------</option>
+            {% for curso in cursos %}
+              <option value="{{ curso.id }}">
+                {{ curso }}
+              </option>
+            {% endfor %}
+          </select>
+      </div>
+
+      <div class="form-group col-sm">
+        <label for="cantidad_preguntas">asdf</label>
+        <input
+          type="text"
+          class="form-control"
+          id="asdf"
+          name="asdf"
+          aria-describedby="asdfHelp"
+          placeholder="asdf"
+        />
+      </div>
+      <div class="form-group col-sm">
+        <label for="asdf">asdf</label>
+        <input
+          type="text"
+          class="form-control"
+          id="asdf"
+          name="asdf"
+          aria-describedby="asdfHelp"
+          placeholder="asdf"
+        />
+      </div>
+      <div class="form-group col-sm">
+        <label for="asdf">asdf</label>
+        <input
+          type="text"
+          class="form-control"
+          id="asdf"
+          name="asdf"
+          aria-describedby="asdfHelp"
+          placeholder="asdf"
+        />
+      </div>
+    </div>
+
+    <div class="row">
+      <h4>Buscar Preguntas</h4>
+    </div>
+    <div class="row">
+      <div class="form-group col-sm">
+        <label for="docente">Docente</label>
+          <select class="form-control" id="docente" name="docente">
+            <option value="0">---------</option>
+            {% for docente in docentes %}
+              <option value="{{ docente.id }}">
+                {{ docente }}
+              </option>
+            {% endfor %}
+          </select>
+      </div>
+      <div class="form-group col-sm">
+        <label for="curso">Curso</label>
+          <select class="form-control" id="curso" name="curso">
+            <option value="0">---------</option>
+            {% for curso in cursos %}
+              <option value="{{ curso.id }}">
+                {{ curso }}
+              </option>
+            {% endfor %}
+          </select>
+      </div>
+      <div class="form-group col-sm">
+        <label for="nombre_pregunta">Nombre Pregunta</label>
+        <input type="text" class="form-control" id="nombre_pregunta" name="nombre_pregunta">
       </div>
     </div>
       <div class="form-group col-sm">
