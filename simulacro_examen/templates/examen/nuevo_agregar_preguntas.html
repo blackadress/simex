@@ -5,6 +5,60 @@
 {% endblock %}
 
 {% block content %}
+<h3>Registrar Cursos de Examen</h3>
+<div class="row">
+  {% csrf_token %}
+  <div class="form-group col-sm-12 col-md-4">
+    <label for="curso">Curso</label>
+      <select class="form-control" id="curso" name="curso">
+        <option value="0">---------</option>
+        {% for curso in cursos %}
+          <option value="{{ curso.id }}">
+            {{ curso }}
+          </option>
+        {% endfor %}
+      </select>
+  </div>
+
+  <div class="form-group col-sm">
+    <label for="cantidad_preguntas">Cantidad preguntas</label>
+    <input
+      type="text"
+      class="form-control"
+      id="cantidad_preguntas"
+      name="cantidad_preguntas"
+    />
+  </div>
+  <div class="form-group col-sm">
+    <label for="favor">Puntaje de preguntas a favor</label>
+    <input
+      type="text"
+      class="form-control"
+      id="favor"
+      name="favor"
+    />
+  </div>
+  <div class="form-group col-sm">
+    <label for="contra">Puntaje de preguntas en contra</label>
+    <input
+      type="text"
+      class="form-control"
+      id="contra"
+      name="contra"
+    />
+  </div>
+  <div class="form-group col-sm">
+    <label for="sin_responder">Sin responder</label>
+    <input
+      type="text"
+      class="form-control"
+      id="sin_responder"
+      name="sin_responder"
+    />
+  </div>
+</div>
+<button type="submit" id="guardar_curso" class="btn btn-primary btn-lg">Guardar Curso</button>
+
 <div class="row">
   <h4>Buscar Preguntas</h4>
 </div>
@@ -61,4 +115,5 @@
 
 {% endblock %}
 {% block scripts %}
+<script src="{% static 'js/templates/examen/nuevo_agregar_preguntas.js' %}"></script>
 {% endblock %}

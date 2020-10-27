@@ -50,8 +50,8 @@ class Examen(models.Model):
     nombre_examen = models.CharField(max_length=200, null=False)
     tipo_examen = models.CharField(max_length=200, null=False)
     duracion_minutos = models.IntegerField(default=60)
-    nota_maxima = models.DecimalField(max_digits=4, decimal_places=3)
-    puntaje_maximo = models.DecimalField(max_digits=4, decimal_places=3)
+    nota_maxima = models.DecimalField(max_digits=6, decimal_places=3)
+    puntaje_maximo = models.DecimalField(max_digits=6, decimal_places=3)
 
     universidad = models.ForeignKey(
         "Universidad", on_delete=models.SET_NULL, null=True)

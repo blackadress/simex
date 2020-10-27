@@ -77,6 +77,10 @@ urlpatterns = [
     path('api/curso-buscar-por-universidad/<int:universidad_pk>/',
          views.APIGetCursosByUniversidadId.as_view(), name='api_get_cursos_by_universidad_id'),
 
+    # CURSO_EXAMEN
+    path('examen/api/curso-examen-nuevo/<int:examen_id>/',
+            views.APICursoExamenNuevo.as_view(), name='api_curso_examen_nuevo'),
+
     # FACULTAD
     path('api/facultad-buscar/<int:universidad_id>/',
          views.APIGetFacultadesByUniversidadId.as_view(), name='api_get_facultades_by_universidad'),

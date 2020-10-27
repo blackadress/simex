@@ -286,11 +286,30 @@ class ViewExamenNuevo(View):
         nota_maxima = form['nota_maxima']
         puntaje_maximo = form['puntaje_maximo']
         universidad_id = form['universidad']
+        print(nota_maxima, puntaje_maximo)
         examen = Examen.objects.create(
-            nombre_examen=nombre_examen, tipo_examen=tipo_examen, duracion_minutos=duracion_minutos,
-            nota_maxima=nota_maxima, puntaje_maximo=puntaje_maximo, universidad_id=universidad_id)
+            nombre_examen=nombre_examen,
+            tipo_examen=tipo_examen,
+            nota_maxima=nota_maxima,
+            puntaje_maximo=puntaje_maximo,
+            universidad_id=universidad_id)
 
         return redirect('examen:view_examen_nuevo_agregar_preguntas', examen_id=examen.id)
+
+
+class ViewExamenNuevoAgregarPreguntas(View):
+    template_name = 'examen/nuevo_agregar_preguntas.html'
+
+    def get(self, request, *args, **kwargs):
+        examen_id = kwargs['examen_id']
+        universidad_id = Examen.objects.get(pk=examen_id).universidad.id
+        docentes = Docente.objects.all()
+        cursos = Curso.objects.filter(universidad_id=universidad_id)
+        context = {
+            "docentes": docentes,
+            "cursos": cursos
+        }
+        return render(request, self.template_name, context)
 
 
 class ViewExamenListar(ListView):
@@ -401,6 +420,25 @@ class ViewCursoUD(View):
         curso = Curso.objects.delete(pk=pk)
         context = {}
         return render(request, self.template_name, context)
+
+
+class APICursoExamenNuevo(View):
+
+    def post(self, request, *args, **kwargs):
+        examen_id = kwargs['examen_id']
+        form = request.POST
+        curso_id = form['curso']
+        cantidad_preguntas = form['cantidad_preguntas']
+        favor = form['favor']
+        contra = form['contra']
+        sin_responder = form['sin_responder']
+
+        curso = CursoExamen.objects.create(
+            cantidad_preguntas=cantidad_preguntas, favor=favor, contra=contra,
+            sin_responder=sin_responder, curso_id=curso_id, examen_id=examen_id)
+        curso_json = serializers.serialize('json', curso)
+
+        return JsonResponse(curso_json)
 
 
 class APIGetCursosByUniversidadId(View):
