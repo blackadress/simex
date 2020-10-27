@@ -1,6 +1,7 @@
+from django.core import serializers
 from django.core.paginator import Paginator
 from django.http import JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import View
 from django.views.generic import ListView
 from simulacro_examen.settings import OBJ_PER_PAGE
@@ -270,19 +271,26 @@ class ViewExamenNuevo(View):
     def get(self, request, *args, **kwargs):
         universidades = Universidad.objects.all()
         cursos = Curso.objects.all()
-        docentes = Docente.objects.all()
 
         context = {
             'universidades': universidades,
             'cursos': cursos,
-            'docentes': docentes,
         }
         return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
         form = request.POST
-        context = {}
-        return render(request, self.template_name, context)
+        nombre_examen = form['nombre']
+        tipo_examen = form['tipo']
+        duracion_minutos = form['duracion']
+        nota_maxima = form['nota_maxima']
+        puntaje_maximo = form['puntaje_maximo']
+        universidad_id = form['universidad']
+        examen = Examen.objects.create(
+            nombre_examen=nombre_examen, tipo_examen=tipo_examen, duracion_minutos=duracion_minutos,
+            nota_maxima=nota_maxima, puntaje_maximo=puntaje_maximo, universidad_id=universidad_id)
+
+        return redirect('examen:view_examen_nuevo_agregar_preguntas', examen_id=examen.id)
 
 
 class ViewExamenListar(ListView):
@@ -394,6 +402,7 @@ class ViewCursoUD(View):
         context = {}
         return render(request, self.template_name, context)
 
+
 class APIGetCursosByUniversidadId(View):
     def get(self, request, *args, **kwargs):
         universidad_pk = kwargs['universidad_pk']
@@ -401,7 +410,13 @@ class APIGetCursosByUniversidadId(View):
 
         cursos_json = []
         for curso in cursos:
-            cursos_json.append(cursos)
+            curso_json = {
+                "id": curso.id,
+                "nombre": curso.nombre,
+                "siglas": curso.siglas,
+                "universidad": curso.universidad_id,
+            }
+            cursos_json.append(curso_json)
 
         return JsonResponse(cursos_json, safe=False)
 
