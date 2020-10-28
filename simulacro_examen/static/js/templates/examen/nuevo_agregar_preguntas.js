@@ -3,7 +3,13 @@ window.onload = () => {
   guardar_curso_btn.addEventListener('click', e => {
     e.preventDefault()
     postCursoExamen()
-      .then(console.log)
+      .then(curso => {
+        // agregar curso option al select de cursos
+        const option_curso = `<option value="${curso.id}">${curso.sigla} -- ${curso.nombre}</option>`
+        let curso_buscar_select = document.getElementById('curso_buscar')
+        curso_buscar_select.innerHTML += option_curso
+        
+      })
   })
 
 }
@@ -16,7 +22,7 @@ const postCursoExamen = () => {
 
   // creando el objeto formData
   let formData = new FormData()
-  const csrfmiddlewaretoken = document.getElementsByName('csrfmiddlewaretoken').value
+  const csrfmiddlewaretoken = document.querySelector('[name=csrfmiddlewaretoken]').value
   const curso = document.getElementById('curso').value
   const cantidad_preguntas = document.getElementById('cantidad_preguntas').value
   const favor = document.getElementById('favor').value
@@ -29,9 +35,13 @@ const postCursoExamen = () => {
   formData.append("contra", contra)
   formData.append("sin_responder", sin_responder)
 
+  const headers = { 'X-CSRFToken': csrfmiddlewaretoken }
+  console.log(headers)
+
   // fetch con body formData y obteniendo respuesta
   return fetch(url, {
     method: "post",
+    headers: headers,
     body: formData,
   })
     .then(res => res.json())

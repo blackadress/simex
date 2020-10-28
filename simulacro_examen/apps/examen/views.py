@@ -1,3 +1,5 @@
+import json
+
 from django.core import serializers
 from django.core.paginator import Paginator
 from django.http import JsonResponse
@@ -305,9 +307,13 @@ class ViewExamenNuevoAgregarPreguntas(View):
         universidad_id = Examen.objects.get(pk=examen_id).universidad.id
         docentes = Docente.objects.all()
         cursos = Curso.objects.filter(universidad_id=universidad_id)
+        cursos_examen = CursoExamen.objects.filter(examen_id=examen_id)
+        cursos_examen = [curso_examen.curso for curso_examen in cursos_examen]
+        print(cursos_examen)
         context = {
             "docentes": docentes,
-            "cursos": cursos
+            "cursos": cursos,
+            "cursos_examen": cursos_examen,
         }
         return render(request, self.template_name, context)
 
@@ -433,10 +439,15 @@ class APICursoExamenNuevo(View):
         contra = form['contra']
         sin_responder = form['sin_responder']
 
-        curso = CursoExamen.objects.create(
+        curso_examen = CursoExamen.objects.create(
             cantidad_preguntas=cantidad_preguntas, favor=favor, contra=contra,
             sin_responder=sin_responder, curso_id=curso_id, examen_id=examen_id)
-        curso_json = serializers.serialize('json', curso)
+        curso_json = {
+            "id": curso_examen.id,
+            "cantidad_preguntas": curso_examen.cantidad_preguntas,
+            "nombre": curso_examen.curso.nombre,
+            "siglas": curso_examen.curso.siglas,
+        }
 
         return JsonResponse(curso_json)
 
@@ -561,12 +572,22 @@ class APIGetPreguntasByDocenteCursoPregunta(View):
         docente_pk = kwargs['docente_pk']
         curso_pk = kwargs['curso_pk']
         nombre_pregunta = kwargs['nombre_pregunta']
+        preguntas = Pregunta.objects.all()
 
-        preguntas = Pregunta.objects.filter()
+        if docente_pk != 0:
+            preguntas = preguntas.filter(docente_id=docente_pk)
+        if curso_pk != 0:
+            preguntas = preguntas.filter(curso_id=curso_pk)
+        if nombre_pregunta != '':
+            preguntas = preguntas.filter(nombre__icontains=nombre_pregunta)
 
         preguntas_json = []
         for pregunta in preguntas:
             preguntas_json = {
+                "nombre": pregunta.nombre,
+                "contenido": pregunta.contenido[0:80],
+                "curso": pregunta.curso,
+                "docente": pregunta.docente,
             }
             preguntas_json.append(preguntas_json)
 

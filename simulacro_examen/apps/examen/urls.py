@@ -78,7 +78,7 @@ urlpatterns = [
          views.APIGetCursosByUniversidadId.as_view(), name='api_get_cursos_by_universidad_id'),
 
     # CURSO_EXAMEN
-    path('examen/api/curso-examen-nuevo/<int:examen_id>/',
+    path('api/curso-examen-nuevo/<int:examen_id>/',
             views.APICursoExamenNuevo.as_view(), name='api_curso_examen_nuevo'),
 
     # FACULTAD

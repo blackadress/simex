@@ -88,9 +88,9 @@ class Curso(models.Model):
 
 class CursoExamen(models.Model):
     cantidad_preguntas = models.IntegerField()
-    favor = models.DecimalField(max_digits=3, decimal_places=3)
-    contra = models.DecimalField(max_digits=3, decimal_places=3)
-    sin_responder = models.DecimalField(max_digits=3, decimal_places=3)
+    favor = models.DecimalField(max_digits=6, decimal_places=3)
+    contra = models.DecimalField(max_digits=6, decimal_places=3)
+    sin_responder = models.DecimalField(max_digits=6, decimal_places=3)
 
     curso = models.ForeignKey("Curso", on_delete=models.SET_NULL, null=True)
     examen = models.ForeignKey("Examen", on_delete=models.SET_NULL, null=True)

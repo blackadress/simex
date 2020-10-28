@@ -75,10 +75,10 @@
       </select>
   </div>
   <div class="form-group col-sm">
-    <label for="curso">Curso</label>
-      <select class="form-control" id="curso" name="curso">
+    <label for="curso_buscar">Curso</label>
+      <select class="form-control" id="curso_buscar" name="curso_buscar">
         <option value="0">---------</option>
-        {% for curso in cursos %}
+        {% for curso in cursos_examen %}
           <option value="{{ curso.id }}">
             {{ curso }}
           </option>
