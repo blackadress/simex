@@ -572,24 +572,25 @@ class APIGetPreguntasByDocenteCursoPregunta(View):
         docente_pk = kwargs['docente_pk']
         curso_pk = kwargs['curso_pk']
         nombre_pregunta = kwargs['nombre_pregunta']
+        print(nombre_pregunta)
         preguntas = Pregunta.objects.all()
 
         if docente_pk != 0:
             preguntas = preguntas.filter(docente_id=docente_pk)
         if curso_pk != 0:
             preguntas = preguntas.filter(curso_id=curso_pk)
-        if nombre_pregunta != '':
+        if nombre_pregunta != '0':
             preguntas = preguntas.filter(nombre__icontains=nombre_pregunta)
 
         preguntas_json = []
         for pregunta in preguntas:
-            preguntas_json = {
+            pregunta_json = {
                 "nombre": pregunta.nombre,
                 "contenido": pregunta.contenido[0:80],
-                "curso": pregunta.curso,
-                "docente": pregunta.docente,
+                "curso": str(pregunta.curso),
+                "docente": str(pregunta.docente),
             }
-            preguntas_json.append(preguntas_json)
+            preguntas_json.append(pregunta_json)
 
         return JsonResponse(preguntas_json, safe=False)
 
