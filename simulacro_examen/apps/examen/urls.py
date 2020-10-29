@@ -79,7 +79,13 @@ urlpatterns = [
 
     # CURSO_EXAMEN
     path('api/curso-examen-nuevo/<int:examen_id>/',
-            views.APICursoExamenNuevo.as_view(), name='api_curso_examen_nuevo'),
+         views.APICursoExamenNuevo.as_view(), name='api_curso_examen_nuevo'),
+
+    # EXAMEN_PREGUNTA
+    path('api/examen-pregunta/nuevo/', views.APIExamenPreguntaNuevo.as_view(),
+         name='api_examen_pregunta_nuevo'),
+    path('api/examen-pregunta/<int:ex_preg_id>/',
+         views.APIExamenPreguntaDetails.as_view(), name='api_curso_examen_detalles'),
 
     # FACULTAD
     path('api/facultad-buscar/<int:universidad_id>/',

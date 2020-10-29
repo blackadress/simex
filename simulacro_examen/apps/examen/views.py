@@ -378,6 +378,27 @@ class ViewExamenUD(View):
         return render(request, self.template_name, context)
 
 
+class APIExamenPreguntaNuevo(View):
+
+    def post(self, request, *args, **kwargs):
+        form = request.POST
+        examen_id = form['examen']
+        pregunta_id = form['pregunta']
+        ex_preg = ExamenPregunta.objects.create(
+            examen_id=examen_id, pregunta_id=pregunta_id)
+
+        return JsonResponse({"id": ex_preg.id})
+
+
+class APIExamenPreguntaDetails(View):
+
+    def delete(self, request, *args, **kwargs):
+        ex_preg_id = kwargs['ex_preg_id']
+        ExamenPregunta.objects.get(id=ex_preg_id).delete()
+
+        return JsonResponse({"exito": 1})
+
+
 class ViewCursoNuevo(View):
     template_name = 'curso/nuevo.html'
 
@@ -585,8 +606,9 @@ class APIGetPreguntasByDocenteCursoPregunta(View):
         preguntas_json = []
         for pregunta in preguntas:
             pregunta_json = {
+                "id": pregunta.id,
                 "nombre": pregunta.nombre,
-                "contenido": pregunta.contenido[0:80],
+                "contenido": pregunta.contenido,
                 "curso": str(pregunta.curso),
                 "docente": str(pregunta.docente),
             }
