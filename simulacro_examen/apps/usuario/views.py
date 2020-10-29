@@ -8,6 +8,8 @@ from apps.usuario.models import Alumno, Docente, Usuario
 # Create your views here.
 
 # VISTAS
+
+
 class ViewAlumnoNuevo(View):
     template_name = 'alumno/nuevo.html'
 
@@ -24,7 +26,8 @@ class ViewAlumnoNuevo(View):
         celular = form['celular']
         usuario = form['usuario']
         password = form['password']
-        user = User.objects.create_user(username=usuario, email=email, password=password)
+        user = User.objects.create_user(
+            username=usuario, email=email, password=password)
         usuario = Usuario.objects.create(
             nombres=nombres,
             apellido_paterno=apellido_paterno,
@@ -44,10 +47,12 @@ class ViewAlumnoNuevo(View):
         }
         return render(request, self.template_name, context)
 
+
 class ViewAlumnoListar(ListView):
     template_name = 'alumno/listar.html'
     paginate_by = 10
     model = Alumno
+
 
 class ViewAlumnoUD(View):
     template_name = 'alumno/detalles.html'
@@ -60,10 +65,29 @@ class ViewAlumnoUD(View):
         }
         return render(request, self.template_name, context)
 
-    def put(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         pk = kwargs['pk']
-        form = request.PUT
-        context = {}
+        form = request.POST
+
+        nombres = form['nombres']
+        apellido_paterno = form['apPaterno']
+        apellido_materno = form['apMaterno']
+        email = form['email']
+        celular = form['celular']
+        username = form['usuario']
+
+        alumno = Usuario.objects.filter(pk=pk)
+        usuario = alumno[0].usuario
+        alumno.update(
+            nombres=nombres, apellido_paterno=apellido_paterno,
+            apellido_materno=apellido_materno, correo_electronico=email, celular=celular)
+        usuario.email=email
+        usuario.username=username
+        usuario.save(update_fields=["username", "email"])
+
+        context = {
+            "alumno": alumno[0]
+        }
         return render(request, self.template_name, context)
 
     def delete(self, request, *args, **kwargs):
@@ -71,6 +95,7 @@ class ViewAlumnoUD(View):
         alumno = Alumno.objects.delete(pk=pk)
         context = {}
         return render(request, self.template_name, context)
+
 
 class ViewDocenteNuevo(View):
     template_name = 'docente/nuevo.html'
@@ -88,7 +113,8 @@ class ViewDocenteNuevo(View):
         celular = form['celular']
         usuario = form['usuario']
         password = form['password']
-        user = User.objects.create_user(username=usuario, email=email, password=password)
+        user = User.objects.create_user(
+            username=usuario, email=email, password=password)
         usuario = Usuario.objects.create(
             nombres=nombres,
             apellido_paterno=apellido_paterno,
@@ -108,10 +134,12 @@ class ViewDocenteNuevo(View):
         }
         return render(request, self.template_name, context)
 
+
 class ViewDocenteListar(ListView):
     template_name = 'docente/listar.html'
     paginate_by = 10
     model = Docente
+
 
 class ViewDocenteUD(View):
     template_name = 'docente/detalles.html'
