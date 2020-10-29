@@ -28,7 +28,7 @@
           <td>{{ examen.nota_maxima }}</td>
           <td>{{ examen.puntaje_maximo }}</td>
           <td>
-            <a class="btn btn-warning" href="{% url 'usuario:view_examen_UD' pk=examen.id %}" role="button">
+            <a class="btn btn-warning" href="{% url 'examen:view_examen_nuevo_agregar_preguntas' examen_id=examen.id %}" role="button">
               <i class="fas fa-fw fa-pen"></i>
               Detalles
             </a>

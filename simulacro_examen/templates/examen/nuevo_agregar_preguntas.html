@@ -118,30 +118,32 @@
     </tr>
   </thead>
   <tbody>
+    {% for pregunta in preguntas %}
+    <tr id=preg_ex-{{ pregunta.id }}>
+      <th>{{ pregunta.nombre }}</th>
+      <th>{{ pregunta.curso }}</th>
+      <th>{{ pregunta.docente }}</th>
+      <th>{{ pregunta.contenido|safe }}</th>
+      <th>
+        <button name="del_pregunta" type="button" class="btn btn-danger">
+          Eliminar pregunta
+        </button>
+      </th>
+    </tr>
+    {% endfor %}
   </tbody>
 </table>
-  <div class="form-group col-sm">
-    <label for="asdf">asdf</label>
-    <input
-      type="text"
-      class="form-control"
-      id="asdf"
-      name="asdf"
-      aria-describedby="asdfHelp"
-      placeholder="asdf"
-    />
-  </div>
-  <div class="form-group col-sm">
-    <label for="asdf">asdf</label>
-    <input
-      type="text"
-      class="form-control"
-      id="asdf"
-      name="asdf"
-      aria-describedby="asdfHelp"
-      placeholder="asdf"
-    />
-  </div>
+  {% comment %}<div class="form-group col-sm">{% endcomment %}
+    {% comment %}<label for="asdf">asdf</label>{% endcomment %}
+    {% comment %}<input{% endcomment %}
+      {% comment %}type="text"{% endcomment %}
+      {% comment %}class="form-control"{% endcomment %}
+      {% comment %}id="asdf"{% endcomment %}
+      {% comment %}name="asdf"{% endcomment %}
+      {% comment %}aria-describedby="asdfHelp"{% endcomment %}
+      {% comment %}placeholder="asdf"{% endcomment %}
+    {% comment %}/>{% endcomment %}
+  {% comment %}</div>{% endcomment %}
 
 {% endblock %}
 {% block scripts %}

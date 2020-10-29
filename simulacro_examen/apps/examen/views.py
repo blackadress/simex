@@ -309,11 +309,15 @@ class ViewExamenNuevoAgregarPreguntas(View):
         cursos = Curso.objects.filter(universidad_id=universidad_id)
         cursos_examen = CursoExamen.objects.filter(examen_id=examen_id)
         cursos_examen = [curso_examen.curso for curso_examen in cursos_examen]
+        ex_preguntas = ExamenPregunta.objects.filter(examen_id=examen_id)
+        preguntas = [ex_preg.pregunta for ex_preg in ex_preguntas]
+
         print(cursos_examen)
         context = {
             "docentes": docentes,
             "cursos": cursos,
             "cursos_examen": cursos_examen,
+            "preguntas": preguntas,
         }
         return render(request, self.template_name, context)
 

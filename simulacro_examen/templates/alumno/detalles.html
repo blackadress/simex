@@ -4,7 +4,139 @@
 {% endblock %}
 
 {% block content %}
-<h2>asdf</h2>
+<div class="container">
+  <h2>Detalles de Alumno</h2>
+
+  <h3 style="color: green">{{ msg }}</h3>
+
+  <form action="." method="put">
+    {% csrf_token %}
+    <div class="row">
+      <div class="form-group col-sm">
+        <label for="nombres">Nombres</label>
+        <input
+          type="text"
+          class="form-control"
+          id="nombres"
+          name="nombres"
+          aria-describedby="nombresHelp"
+          placeholder="Nombres"
+          value={{ alumno.usuario.nombres }}
+          required
+        />
+        <small id="nombresHelp" class="form-text text-muted"
+          >Ingrese los nombres</small
+        >
+      </div>
+      <div class="form-group col-sm">
+        <label for="apPaterno">Apellido paterno</label>
+        <input
+          type="text"
+          class="form-control"
+          id="apPaterno"
+          name="apPaterno"
+          aria-describedby="apPaternoHelp"
+          placeholder="Apellido Paterno"
+          value={{ alumno.usuario.apellido_paterno }}
+          required
+        />
+        <small id="apPaternoHelp" class="form-text text-muted"
+          >Ingrese el apellido paterno</small
+        >
+      </div>
+      <div class="form-group col-sm">
+        <label for="apMaterno">Apellido materno</label>
+        <input
+          type="text"
+          class="form-control"
+          id="apMaterno"
+          name="apMaterno"
+          aria-describedby="apMaternoHelp"
+          placeholder="Apellido Paterno"
+          value={{ alumno.usuario.apellido_materno }}
+          required
+        />
+        <small id="apMaternoHelp" class="form-text text-muted"
+          >Ingrese el apellido materno</small
+        >
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-sm">
+        <label for="email">Correo electrónico</label>
+        <input
+          type="email"
+          class="form-control"
+          id="email"
+          name="email"
+          aria-describedby="emailHelp"
+          placeholder="ejemplo@ex.com"
+          value={{ alumno.usuario.correo_electronico }}
+          required
+        />
+        <small id="emailHelp" class="form-text text-muted"
+          >Nosotros no compartiremos esta información</small
+        >
+      </div>
+      <div class="form-group col-sm">
+        <label for="celular">Celular</label>
+        <input
+          type="text"
+          class="form-control"
+          id="celular"
+          name="celular"
+          aria-describedby="celularHelp"
+          placeholder="999111222"
+          value={{ alumno.usuario.celular }}
+          required
+        />
+        <small id="celularHelp" class="form-text text-muted"
+          >Nosotros no compartiremos esta información</small
+        >
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-sm">
+        <label for="usuario">Nombre de usuario</label>
+        <input
+          type="text"
+          class="form-control"
+          id="usuario"
+          name="usuario"
+          aria-describedby="usuarioHelp"
+          placeholder="usuario_ejemplo"
+          value={{ alumno.usuario.usuario.username }}
+          required
+        />
+        <small id="usuarioHelp" class="form-text text-muted"
+          >El nombre de usuario no puede tener espacios</small
+        >
+      </div>
+      <div class="form-group col-sm">
+        <label for="password">Contraseña</label>
+        <input
+          type="password"
+          class="form-control"
+          id="password"
+          name="password"
+          placeholder="******"
+          required
+        />
+      </div>
+      <div class="form-group col-sm">
+        <label for="password2">Repita Contraseña</label>
+        <input
+          type="password"
+          class="form-control"
+          id="password2"
+          placeholder="******"
+          required
+        />
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary btn-lg">Guardar</button>
+  </form>
+</div>
 {% endblock %}
 
 {% block scripts %}
