@@ -18,7 +18,7 @@ urlpatterns = [
          name='view_escuela_lista_filtrar'),
     path('escuela-buscar/<int:universidad_pk>/<int:facultad_pk>/',
          views.ViewEscuelaFiltrarPages.as_view(), name='view_escuela_lista_pages'),
-    path('escuela-listar/<int:pk>',
+    path('escuela-listar/<int:pk>/',
          views.ViewEscuelaUD.as_view(), name='view_escuela_UD'),
 
     path('examen-nuevo/', views.ViewExamenNuevo.as_view(),

@@ -140,15 +140,26 @@ class ViewFacultadUD(View):
     def get(self, request, *args, **kwargs):
         pk = kwargs['pk']
         facultad = Facultad.objects.get(pk=pk)
+        universidades = Universidad.objects.all()
         context = {
-            'facultad': facultad
+            'facultad': facultad,
+            'universidades': universidades,
         }
         return render(request, self.template_name, context)
 
-    def put(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         pk = kwargs['pk']
-        form = request.PUT
-        context = {}
+        form = request.POST
+        nombre = form['nombre']
+        universidad_id = form['universidad']
+        facultad = Facultad.objects.filter(pk=pk)
+        facultad.update(nombre=nombre, universidad_id=universidad_id)
+
+        universidades = Universidad.objects.all()
+        context = {
+            'facultad': facultad[0],
+            'universidades': universidades,
+        }
         return render(request, self.template_name, context)
 
     def delete(self, request, *args, **kwargs):
@@ -190,6 +201,7 @@ class ViewEscuelaNuevo(View):
         facultad_id = form['facultad']
         EscuelaProfesional.objects.create(
             nombre=nombre, facultad_id=facultad_id)
+
         msg = "Datos de escuela profesional guardados"
         facultades_formated = self.facultades_formated()
 
@@ -255,15 +267,28 @@ class ViewEscuelaUD(View):
     def get(self, request, *args, **kwargs):
         pk = kwargs['pk']
         escuela = EscuelaProfesional.objects.get(pk=pk)
+        facultades = Facultad.objects.all()
         context = {
-            'escuela': escuela
+            'escuela': escuela,
+            'facultades': facultades,
         }
         return render(request, self.template_name, context)
 
-    def put(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         pk = kwargs['pk']
-        form = request.PUT
-        context = {}
+        form = request.POST
+        nombre = form['nombre']
+        facultad_id = form['facultad']
+
+        escuela = EscuelaProfesional.objects.filter(pk=pk)
+        escuela.update(nombre=nombre, facultad_id=facultad_id)
+
+        facultades = Facultad.objects.all()
+
+        context = {
+            "escuela": escuela[0],
+            "facultades": facultades,
+        }
         return render(request, self.template_name, context)
 
     def delete(self, request, *args, **kwargs):
