@@ -74,16 +74,14 @@ class ViewAlumnoUD(View):
         apellido_materno = form['apMaterno']
         email = form['email']
         celular = form['celular']
-        username = form['usuario']
 
         alumno = Usuario.objects.filter(pk=pk)
         usuario = alumno[0].usuario
         alumno.update(
             nombres=nombres, apellido_paterno=apellido_paterno,
             apellido_materno=apellido_materno, correo_electronico=email, celular=celular)
-        usuario.email=email
-        usuario.username=username
-        usuario.save(update_fields=["username", "email"])
+        usuario.email = email
+        usuario.save(update_fields=["email"])
 
         context = {
             "alumno": alumno[0]
@@ -152,10 +150,28 @@ class ViewDocenteUD(View):
         }
         return render(request, self.template_name, context)
 
-    def put(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         pk = kwargs['pk']
-        form = request.PUT
-        context = {}
+        form = request.POST
+
+        nombres = form['nombres']
+        apellido_paterno = form['apPaterno']
+        apellido_materno = form['apMaterno']
+        email = form['email']
+        celular = form['celular']
+
+        docente = Usuario.objects.filter(pk=pk)
+        usuario = docente[0].usuario
+
+        docente.update(
+            nombres=nombres, apellido_paterno=apellido_paterno, apellido_materno=apellido_materno,
+            correo_electronico=email, celular=celular, tipo_usuario="docente")
+        usuario.email = email
+        usuario.save(update_fields=["email"])
+
+        context = {
+            "docente": docente[0]
+        }
         return render(request, self.template_name, context)
 
     def delete(self, request, *args, **kwargs):

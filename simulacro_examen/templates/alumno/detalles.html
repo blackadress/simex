@@ -96,25 +96,6 @@
         >
       </div>
     </div>
-    <div class="row">
-      <div class="form-group col-sm">
-        <label for="usuario">Nombre de usuario</label>
-        <input
-          type="text"
-          class="form-control"
-          id="usuario"
-          name="usuario"
-          aria-describedby="usuarioHelp"
-          placeholder="usuario_ejemplo"
-          value={{ alumno.usuario.usuario.username }}
-          required
-        />
-        <small id="usuarioHelp" class="form-text text-muted"
-          >El nombre de usuario no puede tener espacios</small
-        >
-      </div>
-    </div>
-    {% comment %}<input type="submit" value="put" name="put" class="btn btn-primary btn-lg">{% endcomment %}
     <button type="submit" id="update_alumno" class="btn btn-primary btn-lg">Guardar</button>
   </form>
 </div>

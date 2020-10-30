@@ -1,6 +1,6 @@
 window.onload = () => {
-  const update_alumno_btn = document.querySelector("#update_alumno");
-  update_alumno_btn.addEventListener("click", (e) => {
+  const update_docente_btn = document.querySelector("#update_docente");
+  update_docente_btn.addEventListener("click", (e) => {
     e.preventDefault();
     sendPutRequest();
   });
@@ -13,7 +13,7 @@ const sendPutRequest = () => {
   ).value;
   const headers = { "X-CSRFToken": csrfmiddlewaretoken };
 
-  const formData = new FormData(document.querySelector("#form_alumno"));
+  const formData = new FormData(document.querySelector("#form_docente"));
 
   fetch(url, {
     method: "POST",

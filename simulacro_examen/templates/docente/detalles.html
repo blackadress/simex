@@ -1,11 +1,101 @@
 {% extends 'base/base.html' %}
+{% load static %}
 
 {% block styles %}
 {% endblock %}
 
 {% block content %}
-<h2>asdf</h2>
+<div class="container">
+  <h2>Actualizar datos de Docente</h2>
+  <h3 style="color: green">{{ msg }}</h3>
+
+  <form action="." method="post" id="form_docente">
+    {% csrf_token %}
+    <div class="row">
+      <div class="form-group col-sm">
+        <label for="nombres">Nombres</label>
+        <input
+          type="text"
+          class="form-control"
+          id="nombres"
+          name="nombres"
+          value={{ docente.usuario.nombres }}
+          aria-describedby="nombresHelp"
+          placeholder="Nombres"
+        />
+        <small id="nombresHelp" class="form-text text-muted"
+          >Ingrese los nombres</small
+        >
+      </div>
+      <div class="form-group col-sm">
+        <label for="apPaterno">Apellido paterno</label>
+        <input
+          type="text"
+          class="form-control"
+          id="apPaterno"
+          name="apPaterno"
+          value={{ docente.usuario.apellido_paterno }}
+          aria-describedby="apPaternoHelp"
+          placeholder="Apellido Paterno"
+        />
+        <small id="apPaternoHelp" class="form-text text-muted"
+          >Ingrese el apellido paterno</small
+        >
+      </div>
+      <div class="form-group col-sm">
+        <label for="apMaterno">Apellido materno</label>
+        <input
+          type="text"
+          class="form-control"
+          id="apMaterno"
+          name="apMaterno"
+          value={{ docente.usuario.apellido_materno }}
+          aria-describedby="apMaternoHelp"
+          placeholder="Apellido Paterno"
+        />
+        <small id="apMaternoHelp" class="form-text text-muted"
+          >Ingrese el apellido materno</small
+        >
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-sm">
+        <label for="email">Correo electrónico</label>
+        <input
+          type="email"
+          class="form-control"
+          name="email"
+          id="email"
+          value={{ docente.usuario.correo_electronico }}
+          aria-describedby="emailHelp"
+          placeholder="ejemplo@ex.com"
+        />
+        <small id="emailHelp" class="form-text text-muted"
+          >Nosotros no compartiremos esta información</small
+        >
+      </div>
+      <div class="form-group col-sm">
+        <label for="celular">Celular</label>
+        <input
+          type="text"
+          class="form-control"
+          id="celular"
+          name="celular"
+          value={{ docente.usuario.celular }}
+          aria-describedby="celularHelp"
+          placeholder="999111222"
+        />
+        <small id="celularHelp" class="form-text text-muted"
+          >Nosotros no compartiremos esta información</small
+        >
+      </div>
+    </div>
+
+    <button id="update_docente" type="submit" class="btn btn-primary btn-lg">Guardar</button>
+  </form>
+</div>
 {% endblock %}
 
 {% block scripts %}
+<script src="{% static 'js/templates/docente/detalles.js' %}"></script>
 {% endblock %}
