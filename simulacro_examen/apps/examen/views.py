@@ -445,7 +445,8 @@ class ViewCursoNuevo(View):
         form = request.POST
         nombre = form['nombre']
         siglas = form['siglas']
-        Curso.objects.create(nombre=nombre, siglas=siglas)
+        universidad_id = form['universidad']
+        Curso.objects.create(nombre=nombre, siglas=siglas, universidad_id=universidad_id)
         msg = "Datos de curso guardados"
 
         context = {
@@ -466,15 +467,28 @@ class ViewCursoUD(View):
     def get(self, request, *args, **kwargs):
         pk = kwargs['pk']
         curso = Curso.objects.get(pk=pk)
+        universidades = Universidad.objects.all()
         context = {
-            'curso': curso
+            'curso': curso,
+            'universidad': universidades,
         }
         return render(request, self.template_name, context)
 
-    def put(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         pk = kwargs['pk']
-        form = request.PUT
-        context = {}
+        form = request.POST
+        nombre = form['nombre']
+        siglas = form['siglas']
+        universidad_id = form['universidad']
+
+        curso = Curso.objects.filter(pk=pk)
+        curso.update(nombre=nombre, siglas=siglas, universidad_id=universidad_id)
+
+        universidades = Universidad.objects.all()
+        context = {
+            'universidades': universidades,
+            'curso': curso[0],
+        }
         return render(request, self.template_name, context)
 
     def delete(self, request, *args, **kwargs):

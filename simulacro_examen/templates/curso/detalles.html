@@ -1,11 +1,59 @@
 {% extends 'base/base.html' %}
+{% load static %}
 
 {% block styles %}
 {% endblock %}
 
 {% block content %}
-<h2>asdf</h2>
+
+<div class="container">
+  <h2>Actualizar datos de Curso</h2>
+  <h3 style="color: green">{{ msg }}</h3>
+
+  <form action="." method="post">
+    {% csrf_token %}
+    <div class="row">
+      <div class="form-group col-sm">
+        <label for="nombre">Nombre Curso</label>
+        <input
+          type="text"
+          class="form-control"
+          id="nombre"
+          name="nombre"
+          value="{{ curso.nombre }}"
+          placeholder="Fisica I"
+        />
+      </div>
+      <div class="form-group col-sm">
+        <label for="siglas">Siglas curso</label>
+        <input
+          type="text"
+          class="form-control"
+          id="siglas"
+          name="siglas"
+          value="{{ curso.siglas }}"
+          placeholder="FS01"
+        />
+      </div>
+      <div class="form-group col-sm">
+        <label for="universidad">Universidad</label>
+          <select class="form-control" id="universidad" name="universidad">
+            <option value="{{ curso.universidad.id }}">
+              {{ curso.universidad.siglas }}
+            </option>
+            {% for universidad in universidades %}
+              <option value="{{ universidad.id }}">
+                {{ universidad.siglas }}
+              </option>
+            {% endfor %}
+          </select>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary btn-lg">Guardar</button>
+  </form>
+</div>
 {% endblock %}
 
 {% block scripts %}
+<script src="{% static 'js/templates/curso/detalles.js' %}"></script>
 {% endblock %}

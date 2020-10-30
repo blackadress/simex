@@ -31,6 +31,16 @@
           placeholder="FS01"
         />
       </div>
+      <div class="form-group col-sm">
+        <label for="universidad">Universidad</label>
+          <select class="form-control" id="universidad" name="universidad">
+            {% for universidad in universidades %}
+              <option value="{{ universidad.id }}">
+                {{ universidad.siglas }}
+              </option>
+            {% endfor %}
+          </select>
+      </div>
     </div>
     <button type="submit" class="btn btn-primary btn-lg">Guardar</button>
   </form>
