@@ -54,10 +54,16 @@ class ViewUniversidadUD(View):
         }
         return render(request, self.template_name, context)
 
-    def put(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         pk = kwargs['pk']
-        form = request.PUT
-        context = {}
+        form = request.POST
+        nombre = form['nombre']
+        siglas = form['siglas']
+        universidad = Universidad.objects.filter(pk=pk)
+        universidad.update(nombre=nombre, siglas=siglas)
+        context = {
+            "universidad": universidad[0]
+        }
         return render(request, self.template_name, context)
 
     def delete(self, request, *args, **kwargs):
