@@ -8,7 +8,7 @@ from django.views import View
 from django.views.generic import ListView
 from simulacro_examen.settings import OBJ_PER_PAGE
 
-from apps.examen.forms import PreguntaForm
+from apps.examen.forms import PreguntaForm, AlternativaForm
 from apps.examen.models import Universidad, Facultad, EscuelaProfesional, Examen, ExamenPregunta, Curso, CursoExamen, Pregunta, Alternativa, ResultadoExamen
 from apps.usuario.models import Alumno, Docente
 
@@ -545,8 +545,15 @@ class ViewPreguntaNuevo(View):
 
     def get(self, request, *args, **kwargs):
         form = PreguntaForm()
+        form_alt1 = AlternativaForm(prefix='alt_1')
+        form_alt2 = AlternativaForm(prefix='alt_2')
+        form_alt3 = AlternativaForm(prefix='alt_3')
+        form_alt4 = AlternativaForm(prefix='alt_4')
+        form_alt5 = AlternativaForm(prefix='alt_5')
+        alt_forms = [form_alt1, form_alt2, form_alt3, form_alt4, form_alt5]
         context = {
             "form": form,
+            "alt_forms": alt_forms,
         }
         return render(request, self.template_name, context)
 
@@ -619,9 +626,24 @@ class ViewPreguntaUD(View):
     def get(self, request, *args, **kwargs):
         pk = kwargs['pk']
         pregunta = Pregunta.objects.get(pk=pk)
-        context = {
-            'pregunta': pregunta
+        data = {
+            'nombre': pregunta.nombre,
+            'contenido': pregunta.contenido,
+            'curso': pregunta.curso,
+            'docente': pregunta.docente,
         }
+        form = PreguntaForm(data)
+        alternativas = Alternativa.objects.filter(pregunta=pregunta)
+        alt_correcta = alternativas.get(correcta=True)
+        alternativas.exclude(correcta=True)
+
+        context = {
+            'pregunta': pregunta,
+            'form': form,
+            'alternativas': alternativas,
+            'alt_correcta': alt_correcta,
+        }
+
         return render(request, self.template_name, context)
 
     def put(self, request, *args, **kwargs):

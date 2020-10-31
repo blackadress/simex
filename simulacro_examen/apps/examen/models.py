@@ -114,7 +114,7 @@ class Pregunta(models.Model):
 
 
 class Alternativa(models.Model):
-    alternativa = models.CharField(max_length=200, null=False)
+    alternativa = RichTextField(max_length=200, null=False)
     clave = models.CharField(max_length=200, null=True)
     correcta = models.BooleanField(default=False)
 

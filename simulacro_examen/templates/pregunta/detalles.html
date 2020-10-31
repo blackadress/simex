@@ -4,7 +4,75 @@
 {% endblock %}
 
 {% block content %}
-<h2>asdf</h2>
+<div class="container">
+  <h2>Actualizar datos Pregunta</h2>
+
+  <form action="." method="post">
+    {% csrf_token %}
+    {{ form.media }}
+    {{ form.as_p }}
+
+    <div class="row">
+      <div class="form-group col-sm">
+        <label for="alt1">Alternativa 1 (respuesta correcta aquí)</label>
+        <input
+          type="text"
+          class="form-control"
+          id="alt1"
+          name="alt1"
+        />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col-sm">
+        <label for="alt2">Alternativa 2</label>
+        <input
+          type="text"
+          class="form-control"
+          id="alt2"
+          name="alt2"
+        />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col-sm">
+        <label for="alt3">Alternativa 3</label>
+        <input
+          type="text"
+          class="form-control"
+          id="alt3"
+          name="alt3"
+        />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col-sm">
+        <label for="alt4">Alternativa 4</label>
+        <input
+          type="text"
+          class="form-control"
+          id="alt4"
+          name="alt4"
+        />
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-sm">
+        <label for="alt5">Alternativa 5</label>
+        <input
+          type="text"
+          class="form-control"
+          id="alt5"
+          name="alt5"
+        />
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary btn-lg">Guardar</button>
+  </form>
+</div>
 {% endblock %}
 
 {% block scripts %}
