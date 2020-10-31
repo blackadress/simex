@@ -371,7 +371,7 @@ class ViewExamenListadoFiltrar(View):
 
 
 class ViewExamenFiltrarPages(View):
-    template_name = 'examen/lista_filtrar.html'
+    template_name = 'examen/listar.html'
 
     def get(self, request, *args, **kwargs):
         page = request.GET['page']
@@ -558,13 +558,19 @@ class ViewPreguntaNuevo(View):
         return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
-        alt1 = request.POST['alt1']
-        alt2 = request.POST['alt2']
-        alt3 = request.POST['alt3']
-        alt4 = request.POST['alt4']
-        alt5 = request.POST['alt5']
+        ## obtener datos de los formularios de alternativas
+        alt1 = request.POST['alt_1-alternativa']
+        alt2 = request.POST['alt_2-alternativa']
+        alt3 = request.POST['alt_3-alternativa']
+        alt4 = request.POST['alt_4-alternativa']
+        alt5 = request.POST['alt_5-alternativa']
 
         form = PreguntaForm(request.POST)
+        form_alt1 = AlternativaForm({'alternativa': alt1, 'correcta': True})
+        form_alt2 = AlternativaForm({'alternativa': alt2})
+        form_alt3 = AlternativaForm({'alternativa': alt3})
+        form_alt4 = AlternativaForm({'alternativa': alt4})
+        form_alt5 = AlternativaForm({'alternativa': alt5})
         if form.is_valid():
             pregunta = form.save()
             altObj1 = Alternativa.objects.create(

@@ -112,6 +112,9 @@ class Pregunta(models.Model):
         verbose_name = "Pregunta"
         verbose_name_plural = "Preguntas"
 
+    def __str__(self):
+        return "{}".format(self.nombre)
+
 
 class Alternativa(models.Model):
     alternativa = RichTextField(max_length=200, null=False)
@@ -124,6 +127,9 @@ class Alternativa(models.Model):
     class Meta:
         verbose_name = "Alternativa"
         verbose_name_plural = "Alternativas"
+    
+    def __str__(self):
+        return "{}".format(self.alternativa)
 
 
 class ResultadoExamen(models.Model):
