@@ -76,7 +76,8 @@ class Curso(models.Model):
     nombre = models.CharField(max_length=200, null=False)
     siglas = models.CharField(max_length=200, null=False)
 
-    universidad = models.ForeignKey("Universidad", on_delete=models.SET_NULL, null=True)
+    universidad = models.ForeignKey(
+        "Universidad", on_delete=models.SET_NULL, null=True)
 
     class Meta:
         verbose_name = "Curso"
@@ -122,20 +123,20 @@ class Alternativa(models.Model):
     correcta = models.BooleanField(default=False)
 
     pregunta = models.ForeignKey(
-        "Pregunta", on_delete=models.SET_NULL, null=True)
+        "Pregunta", on_delete=models.SET_NULL, null=True, related_name="alternativas", related_query_name="alternativas")
 
     class Meta:
         verbose_name = "Alternativa"
         verbose_name_plural = "Alternativas"
-    
+
     def __str__(self):
         return "{}".format(self.alternativa)
 
 
 class ResultadoExamen(models.Model):
     duracion_segundos = models.IntegerField()
-    nota_obtenida = models.DecimalField(max_digits=4, decimal_places=3)
-    puntaje_obtenido = models.DecimalField(max_digits=4, decimal_places=3)
+    nota_obtenida = models.DecimalField(max_digits=7, decimal_places=3)
+    puntaje_obtenido = models.DecimalField(max_digits=7, decimal_places=3)
 
     examen = models.ForeignKey("Examen", on_delete=models.SET_NULL, null=True)
     alumno = models.ForeignKey(Alumno, on_delete=models.SET_NULL, null=True)
@@ -143,3 +144,14 @@ class ResultadoExamen(models.Model):
     class Meta:
         verbose_name = "Resultado Examen"
         verbose_name_plural = "Resultados Examenes"
+
+
+class ResultadoExamenPregunta(models.Model):
+    valor_pregunta = models.DecimalField(max_digits=7, decimal_places=3)
+
+    resultado_examen = models.ForeignKey(
+        "ResultadoExamen", on_delete=models.SET_NULL, null=True)
+    pregunta = models.ForeignKey(
+        "Pregunta", on_delete=models.SET_NULL, null=True)
+    alternativa_res = models.ForeignKey(
+        "Alternativa", on_delete=models.SET_NULL, null=True)

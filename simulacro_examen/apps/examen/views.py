@@ -319,7 +319,6 @@ class ViewExamenNuevo(View):
         nota_maxima = form['nota_maxima']
         puntaje_maximo = form['puntaje_maximo']
         universidad_id = form['universidad']
-        print(nota_maxima, puntaje_maximo)
         examen = Examen.objects.create(
             nombre_examen=nombre_examen,
             tipo_examen=tipo_examen,
@@ -342,13 +341,37 @@ class ViewExamenNuevoAgregarPreguntas(View):
         cursos_examen = [curso_examen.curso for curso_examen in cursos_examen]
         ex_preguntas = ExamenPregunta.objects.filter(examen_id=examen_id)
         preguntas = [ex_preg.pregunta for ex_preg in ex_preguntas]
+        print(preguntas)
 
-        print(cursos_examen)
         context = {
             "docentes": docentes,
             "cursos": cursos,
             "cursos_examen": cursos_examen,
             "preguntas": preguntas,
+        }
+        return render(request, self.template_name, context)
+
+
+class ViewExamenRendir(View):
+    template_name = 'examen/rendir.html'
+
+    def get(self, request, *args, **kwargs):
+        examen_id = kwargs['examen_id']
+        examen = Examen.objects.get(pk=examen_id)
+        examen_preguntas = ExamenPregunta.objects.filter(examen=examen).order_by('pregunta__curso')
+        preguntas = [examen_pregunta.pregunta for examen_pregunta in examen_preguntas]
+        preguntas_por_curso = {}
+        for pregunta in preguntas:
+            if pregunta.curso.id not in preguntas_por_curso:
+                preguntas_por_curso[pregunta.curso.id] = []
+            preguntas_por_curso[pregunta.curso.id] += [pregunta]
+
+        print(preguntas_por_curso)
+        cursos = list(preguntas_por_curso.keys())
+        context = {
+            'examen': examen,
+            'preguntas': preguntas_por_curso,
+            'cursos': cursos,
         }
         return render(request, self.template_name, context)
 
@@ -446,7 +469,9 @@ class ViewCursoNuevo(View):
         nombre = form['nombre']
         siglas = form['siglas']
         universidad_id = form['universidad']
-        Curso.objects.create(nombre=nombre, siglas=siglas, universidad_id=universidad_id)
+        Curso.objects.create(
+            nombre=nombre, siglas=siglas,
+            universidad_id=universidad_id)
         msg = "Datos de curso guardados"
 
         context = {
@@ -482,7 +507,8 @@ class ViewCursoUD(View):
         universidad_id = form['universidad']
 
         curso = Curso.objects.filter(pk=pk)
-        curso.update(nombre=nombre, siglas=siglas, universidad_id=universidad_id)
+        curso.update(nombre=nombre, siglas=siglas,
+                     universidad_id=universidad_id)
 
         universidades = Universidad.objects.all()
         context = {
@@ -558,7 +584,7 @@ class ViewPreguntaNuevo(View):
         return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
-        ## obtener datos de los formularios de alternativas
+        # obtener datos de los formularios de alternativas
         alt1 = request.POST['alt_1-alternativa']
         alt2 = request.POST['alt_2-alternativa']
         alt3 = request.POST['alt_3-alternativa']
@@ -670,7 +696,6 @@ class APIGetPreguntasByDocenteCursoPregunta(View):
         docente_pk = kwargs['docente_pk']
         curso_pk = kwargs['curso_pk']
         nombre_pregunta = kwargs['nombre_pregunta']
-        print(nombre_pregunta)
         preguntas = Pregunta.objects.all()
 
         if docente_pk != 0:
@@ -773,3 +798,13 @@ class ViewResultadoUD(View):
         resultado = ResultadoExamen.objects.delete(pk=pk)
         context = {}
         return render(request, self.template_name, context)
+
+from django.template.defaulttags import register
+
+@register.filter
+def get_item(dictionary, key):
+    return dictionary.get(key)
+
+@register.filter
+def get_nombre_curso(preguntas_curso, key):
+    return preguntas_curso[key][0].curso.nombre

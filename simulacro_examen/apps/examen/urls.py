@@ -8,7 +8,8 @@ urlpatterns = [
     path('curso-nuevo/', views.ViewCursoNuevo.as_view(), name='view_curso_nuevo'),
     path('curso-listar/', views.ViewCursoListar.as_view(),
          name='view_curso_listar'),
-    path('curso-listar/<int:pk>/', views.ViewCursoUD.as_view(), name='view_curso_UD'),
+    path('curso-listar/<int:pk>/',
+         views.ViewCursoUD.as_view(), name='view_curso_UD'),
 
     path('escuela-nuevo/', views.ViewEscuelaNuevo.as_view(),
          name='view_escuela_nuevo'),
@@ -27,6 +28,7 @@ urlpatterns = [
          views.ViewExamenNuevoAgregarPreguntas.as_view(), name='view_examen_nuevo_agregar_preguntas'),
     path('examen-listar/', views.ViewExamenListar.as_view(),
          name='view_examen_listar'),
+    path('examen-rendir/<int:examen_id>/', views.ViewExamenRendir.as_view(), name='view_examen_rendir'),
     path('examen-buscar/', views.ViewExamenListadoFiltrar.as_view(),
          name='view_examen_lista_filtrar'),
     path('examen-buscar/<int:universidad_pk>/',
