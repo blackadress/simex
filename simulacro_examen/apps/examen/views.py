@@ -394,7 +394,7 @@ class ViewExamenListadoFiltrar(View):
 
 
 class ViewExamenFiltrarPages(View):
-    template_name = 'examen/listar.html'
+    template_name = 'examen/lista_filtrar.html'
 
     def get(self, request, *args, **kwargs):
         page = request.GET['page']
