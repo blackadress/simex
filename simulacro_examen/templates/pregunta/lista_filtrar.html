@@ -38,10 +38,12 @@
           <td>{{ pregunta.nombre }}</td>
           <td>{{ pregunta.docente.usuario.apellido_paterno|upper }} {{ pregunta.docente.usuario.apellido_materno|upper }} {{ pregunta.docente.usuario.nombres }}</td>
           <td>
+            {% if request.user.is_superuser %}
             <a class="btn btn-warning" href="{% url 'examen:view_pregunta_UD' pk=pregunta.id %}" role="button">
               <i class="fas fa-fw fa-pen"></i>
               Detalles
             </a>
+            {% endif %}
           </td>
         </tr>
         

@@ -37,11 +37,13 @@
           <td>{{ facultad.universidad.nombre }}</td>
           <td>{{ facultad.nombre }}</td>
           <td>
-            {{facultad.id}}
-            {% comment %}<a class="btn btn-warning" href="{% url 'examen:view_facultad_UD' pk=facultad.id %}" role="button">{% endcomment %}
-              {% comment %}<i class="fas fa-fw fa-pen"></i>{% endcomment %}
-              {% comment %}Detalles{% endcomment %}
-            {% comment %}</a>{% endcomment %}
+            {% comment %}{{facultad.id}}{% endcomment %}
+            {% if request.user.is_superuser %}
+            <a class="btn btn-warning" href="{% url 'examen:view_facultad_UD' pk=facultad.id %}" role="button">
+              <i class="fas fa-fw fa-pen"></i>
+              Detalles
+            </a>
+            {% endif %}
           </td>
         </tr>
         

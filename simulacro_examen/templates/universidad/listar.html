@@ -20,10 +20,12 @@
           <td>{{ universidad.nombre }}</td>
           <td>{{ universidad.siglas }}</td>
           <td>
+            {% if request.user.is_superuser %}
             <a class="btn btn-warning" href="{% url 'examen:view_universidad_UD' pk=universidad.id %}" role="button">
               <i class="fas fa-fw fa-pen"></i>
               Detalles
             </a>
+            {% endif %}
           </td>
         </tr>
         

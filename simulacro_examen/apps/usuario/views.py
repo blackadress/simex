@@ -179,3 +179,11 @@ class ViewDocenteUD(View):
         docente = Docente.objects.delete(pk=pk)
         context = {}
         return render(request, self.template_name, context)
+
+from django.template.defaulttags import register
+
+@register.filter
+def get_tipo_usuario_from_user(user):
+    usuario = Usuario.objects.get(usuario=user)
+    tipo_usuario = usuario.tipo_usuario
+    return tipo_usuario

@@ -38,10 +38,12 @@
           <td>{{ curso.nombre }}</td>
           <td>{{ curso.siglas }}</td>
           <td>
+            {% if request.user.is_superuser %}
             <a class="btn btn-warning" href="{% url 'examen:view_curso_UD' pk=curso.id %}" role="button">
               <i class="fas fa-fw fa-pen"></i>
               Detalles
             </a>
+            {% endif %}
           </td>
         </tr>
         

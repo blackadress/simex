@@ -25,10 +25,12 @@
           <td>{{ docente.usuario.correo_electronico }}</td>
           <td>{{ docente.usuario.celular }}</td>
           <td>
+            {% if request.user.is_superuser %}
             <a class="btn btn-warning" href="{% url 'usuario:view_docente_UD' pk=docente.id %}" role="button">
               <i class="fas fa-fw fa-pen"></i>
               Detalles
             </a>
+            {% endif %}
           </td>
         </tr>
         
