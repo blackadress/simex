@@ -24,6 +24,3 @@ urlpatterns = [
     path('usuario/', include('apps.usuario.urls')),
     path('examen/', include('apps.examen.urls')),
 ]
-# + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
-# urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

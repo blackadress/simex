@@ -5,10 +5,12 @@ verify_ssl = true
 
 [dev-packages]
 autopep8 = "*"
+neovim = "*"
 
 [packages]
 django = "*"
 django-ckeditor = "*"
+autopep8 = "*"
 
 [requires]
-python_version = "3.8"
+python_version = "3.9"

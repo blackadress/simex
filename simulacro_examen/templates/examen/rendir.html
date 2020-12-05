@@ -11,7 +11,10 @@
 
 <h2>{{ examen.nombre_examen }}</h2>
 
-<h3>Tipo Examen: {{ examen.tipo_examen }}</h3> <h3>Duración Minutos: {{ examen.duracion_minutos }}</h3>
+<h3>Tipo Examen: {{ examen.tipo_examen }} | Duración Minutos: {{ examen.duracion_minutos }}</h3>
+<h3 id="inicio_examen">Inicio: {{ examen_iniciado.inicio }}</h3> <h3>Hora máxima de entrega: {{ hora_maxima_entrega }}</h3>
+
+<h4 id="mensaje_error">{{ msg_no_valido }}</h4>
 
 <form id="formulario_examen">
 {% for curso in cursos %}
@@ -22,7 +25,7 @@
       {{ pregunta.contenido|safe}}
       {% for alternativa in pregunta.alternativas.all %}
         <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="inlineRadioOptions" id="{{ alternativa.id }}" value="{{ alternativa.id }}">
+          <input class="form-check-input" type="radio" name="inlineRadioOptions-{{ alternativa.id }}" id="{{ alternativa.id }}" value="{{ alternativa.id }}">
           <label class="form-check-label" for="{{ alternativa.id }}">
             {{ alternativa.alternativa|safe }}
           </label>

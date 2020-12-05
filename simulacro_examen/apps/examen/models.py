@@ -137,6 +137,9 @@ class ResultadoExamen(models.Model):
     duracion_segundos = models.IntegerField()
     nota_obtenida = models.DecimalField(max_digits=7, decimal_places=3)
     puntaje_obtenido = models.DecimalField(max_digits=7, decimal_places=3)
+    inicio = models.DateTimeField(auto_now_add=True)
+    final = models.DateTimeField(null=True)
+    acabado = models.BooleanField(default=False)
 
     examen = models.ForeignKey("Examen", on_delete=models.SET_NULL, null=True)
     alumno = models.ForeignKey(Alumno, on_delete=models.SET_NULL, null=True)

@@ -1,9 +1,12 @@
 import json
+import datetime
+import pytz
 
 from django.core import serializers
 from django.core.paginator import Paginator
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
+from django.template.defaulttags import register
 from django.views import View
 from django.views.generic import ListView
 from simulacro_examen.settings import OBJ_PER_PAGE
@@ -341,7 +344,6 @@ class ViewExamenNuevoAgregarPreguntas(View):
         cursos_examen = [curso_examen.curso for curso_examen in cursos_examen]
         ex_preguntas = ExamenPregunta.objects.filter(examen_id=examen_id)
         preguntas = [ex_preg.pregunta for ex_preg in ex_preguntas]
-        print(preguntas)
 
         context = {
             "docentes": docentes,
@@ -358,20 +360,74 @@ class ViewExamenRendir(View):
     def get(self, request, *args, **kwargs):
         examen_id = kwargs['examen_id']
         examen = Examen.objects.get(pk=examen_id)
-        examen_preguntas = ExamenPregunta.objects.filter(examen=examen).order_by('pregunta__curso')
-        preguntas = [examen_pregunta.pregunta for examen_pregunta in examen_preguntas]
+
+        # check if user has tried take the test before
+        usuario_id = request.user.id
+        alumno = Alumno.objects.filter(usuario_id=usuario_id)
+        duracion_examen_segundos = examen.duracion_minutos * 60
+        if len(alumno):
+            examen_iniciado = ResultadoExamen.objects.filter(
+                alumno=alumno[0], examen=examen)
+            if not len(examen_iniciado):
+                examen_iniciado = ResultadoExamen.objects.create(
+                    duracion_segundos=0, nota_obtenida=0.0, puntaje_obtenido=0.0,
+                    examen=examen, alumno=alumno[0])
+            else:
+                examen_iniciado = examen_iniciado[0]
+                tiempo_examen = datetime.datetime.utcnow().replace(tzinfo=pytz.utc) - examen_iniciado.inicio
+                hora_maxima_entrega = examen_iniciado + datetime.timedelta(0, examen.duracion_minutos)
+                if tiempo_examen.seconds >= duracion_examen_segundos:
+                    context = {
+                        'examen': examen,
+                        'msg_no_valido': 'no puedes volver a dar el mismo examen',
+                        'examen_iniciado': examen_iniciado,
+                        'hora_maxima_entrega': hora_maxima_entrega,
+                    }
+                    return render(request, self.template_name, context)
+        else:
+            # se necesita crear un alumno con id=1 para iniciar el programa
+            # este alumno no estará asignado a nada sino que será
+            # un dummy para que los profesores y/o administradores puedan
+            # dar examenes
+            alumno = Alumno.objects.get(id=1)
+            examen_iniciado = ResultadoExamen.objects.filter(
+                alumno=alumno, examen=examen)
+            if not len(examen_iniciado):
+                examen_iniciado = ResultadoExamen.objects.create(
+                    duracion_segundos=0, nota_obtenida=0.0, puntaje_obtenido=0.0,
+                    examen=examen, alumno=alumno)
+            else:
+                examen_iniciado = examen_iniciado[0]
+                tiempo_examen = datetime.datetime.utcnow().replace(tzinfo=pytz.utc) - examen_iniciado.inicio
+                hora_maxima_entrega = examen_iniciado.inicio + datetime.timedelta(0, examen.duracion_minutos * 60)
+                if tiempo_examen.seconds >= duracion_examen_segundos:
+                    context = {
+                        'examen': examen,
+                        'msg_no_valido': 'no puedes volver a dar el mismo examen',
+                        'examen_iniciado': examen_iniciado,
+                        'hora_maxima_entrega': hora_maxima_entrega,
+                    }
+                    return render(request, self.template_name, context)
+
+        # filtrar las preguntas del examen
+        examen_preguntas = ExamenPregunta.objects.filter(
+            examen=examen).order_by('pregunta__curso')
+        preguntas = [
+            examen_pregunta.pregunta for examen_pregunta in examen_preguntas]
         preguntas_por_curso = {}
         for pregunta in preguntas:
             if pregunta.curso.id not in preguntas_por_curso:
                 preguntas_por_curso[pregunta.curso.id] = []
             preguntas_por_curso[pregunta.curso.id] += [pregunta]
 
-        print(preguntas_por_curso)
         cursos = list(preguntas_por_curso.keys())
+
         context = {
             'examen': examen,
             'preguntas': preguntas_por_curso,
             'cursos': cursos,
+            'examen_iniciado': examen_iniciado,
+            'hora_maxima_entrega': hora_maxima_entrega,
         }
         return render(request, self.template_name, context)
 
@@ -799,11 +855,11 @@ class ViewResultadoUD(View):
         context = {}
         return render(request, self.template_name, context)
 
-from django.template.defaulttags import register
 
 @register.filter
 def get_item(dictionary, key):
     return dictionary.get(key)
+
 
 @register.filter
 def get_nombre_curso(preguntas_curso, key):
