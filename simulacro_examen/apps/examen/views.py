@@ -517,7 +517,10 @@ class ViewCursoNuevo(View):
     template_name = 'curso/nuevo.html'
 
     def get(self, request, *args, **kwargs):
-        context = {}
+        universidades = Universidad.objects.all()
+        context = {
+            'universidades': universidades,
+        }
         return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
