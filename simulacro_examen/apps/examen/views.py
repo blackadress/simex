@@ -864,7 +864,6 @@ class ViewResultadoUD(View):
 def get_item(dictionary, key):
     return dictionary.get(key)
 
-
 @register.filter
 def get_nombre_curso(preguntas_curso, key):
     return preguntas_curso[key][0].curso.nombre
