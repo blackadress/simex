@@ -75,6 +75,8 @@ urlpatterns = [
          views.ViewUniversidadUD.as_view(), name='view_universidad_UD'),
 
     # API
+    # UPLOAD IMG
+    path('api/upload-img/', views.APIUploadImg.as_view(), name='api_upload_img'),
     # CURSO
     path('api/curso-buscar-por-universidad/<int:universidad_pk>/',
          views.APIGetCursosByUniversidadId.as_view(), name='api_get_cursos_by_universidad_id'),

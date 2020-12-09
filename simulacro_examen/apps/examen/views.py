@@ -8,11 +8,13 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.template.defaulttags import register
 from django.views import View
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import ListView
+from django.utils.decorators import method_decorator
 from simulacro_examen.settings import OBJ_PER_PAGE
 
 from apps.examen.forms import PreguntaForm, AlternativaForm
-from apps.examen.models import Universidad, Facultad, EscuelaProfesional, Examen, ExamenPregunta, Curso, CursoExamen, Pregunta, Alternativa, ResultadoExamen
+from apps.examen.models import Universidad, Facultad, EscuelaProfesional, Examen, ExamenPregunta, Curso, CursoExamen, Pregunta, Alternativa, ResultadoExamen, Imagen
 from apps.usuario.models import Alumno, Docente
 
 
@@ -858,7 +860,6 @@ class ViewResultadoUD(View):
         context = {}
         return render(request, self.template_name, context)
 
-
 @register.filter
 def get_item(dictionary, key):
     return dictionary.get(key)
@@ -867,3 +868,10 @@ def get_item(dictionary, key):
 @register.filter
 def get_nombre_curso(preguntas_curso, key):
     return preguntas_curso[key][0].curso.nombre
+
+@method_decorator(csrf_exempt, name='dispatch')
+class APIUploadImg(View):
+    def post(self, request, *args, **kwargs):
+        img = Imagen(img=request.FILES['upload'])
+        img.save()
+        return JsonResponse({"exito": True})

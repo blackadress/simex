@@ -1,4 +1,5 @@
 from ckeditor.fields import RichTextField
+from ckeditor_uploader.fields import RichTextUploadingField
 from django.db import models
 
 from apps.usuario.models import Alumno, Docente
@@ -103,7 +104,7 @@ class CursoExamen(models.Model):
 
 class Pregunta(models.Model):
     nombre = models.CharField(max_length=200, null=False)
-    contenido = RichTextField(max_length=300, null=False)
+    contenido = RichTextUploadingField(max_length=300, null=False)
 
     curso = models.ForeignKey("Curso", on_delete=models.SET_NULL, null=True)
     docente = models.ForeignKey(Docente, on_delete=models.SET_NULL, null=True)
@@ -118,7 +119,7 @@ class Pregunta(models.Model):
 
 
 class Alternativa(models.Model):
-    alternativa = RichTextField(max_length=200, null=False)
+    alternativa = RichTextUploadingField(max_length=200, null=False)
     clave = models.CharField(max_length=200, null=True)
     correcta = models.BooleanField(default=False)
 
@@ -158,3 +159,6 @@ class ResultadoExamenPregunta(models.Model):
         "Pregunta", on_delete=models.SET_NULL, null=True)
     alternativa_res = models.ForeignKey(
         "Alternativa", on_delete=models.SET_NULL, null=True)
+
+class Imagen(models.Model):
+    img = models.FileField(upload_to="img")
