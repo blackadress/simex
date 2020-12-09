@@ -726,15 +726,28 @@ class ViewPreguntaUD(View):
             'docente': pregunta.docente,
         }
         form = PreguntaForm(data)
-        alternativas = Alternativa.objects.filter(pregunta=pregunta)
-        alt_correcta = alternativas.get(correcta=True)
-        alternativas.exclude(correcta=True)
+
+        alt_correcta = Alternativa.objects.get(pregunta=pregunta, correcta=True)
+        alt_correcta_form = AlternativaForm({ 'alternativa': alt_correcta.alternativa }, prefix='alt_1')
+
+        alternativas = Alternativa.objects.filter(pregunta=pregunta, correcta=False)
+
+        alternativas_form = []
+        alternativas_form.append(alt_correcta_form)
+        alternativa_form = AlternativaForm({ 'alternativa': alternativas[0].alternativa }, prefix='alt_2')
+        alternativas_form.append(alternativa_form)
+        alternativa_form = AlternativaForm({ 'alternativa': alternativas[1].alternativa }, prefix='alt_3')
+        alternativas_form.append(alternativa_form)
+        alternativa_form = AlternativaForm({ 'alternativa': alternativas[2].alternativa }, prefix='alt_4')
+        alternativas_form.append(alternativa_form)
+        alternativa_form = AlternativaForm({ 'alternativa': alternativas[3].alternativa }, prefix='alt_5')
+        alternativas_form.append(alternativa_form)
+        print(alternativas_form)
 
         context = {
             'pregunta': pregunta,
             'form': form,
-            'alternativas': alternativas,
-            'alt_correcta': alt_correcta,
+            'alt_forms': alternativas_form,
         }
 
         return render(request, self.template_name, context)

@@ -1,4 +1,5 @@
 {% extends 'base/base.html' %}
+{% load static %}
 
 {% block styles %}
 {% endblock %}
@@ -11,71 +12,55 @@
     {% csrf_token %}
     {{ form.media }}
     {{ form.as_p }}
-    
+
+    {% comment %}{{ alt_correcta_form.media }}{% endcomment %}
+    {% comment %}{{ alt_correcta_form.as_p }}{% endcomment %}
 
     <div class="row">
       <div class="form-group col-sm">
-        <label for="alt1">Alternativa 1 (respuesta correcta aquí)</label>
-        <input
-          type="text"
-          class="form-control"
-          id="alt1"
-          name="alt1"
-          value="{{ alt_correcta.alternativa|safe }}"
-        />
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="form-group col-sm">
-        <label for="alt2">Alternativa 2</label>
-        <input
-          type="text"
-          class="form-control"
-          id="alt2"
-          name="alt2"
-        />
+        <label for="{{ alt_forms.0.alternativa.id_for_label }}">Alternativa 1 (respuesta correcta aquí)</label></br>
+          {{ alt_forms.0.alternativa }}
+          {{ alt_forms.0.media }}
       </div>
     </div>
 
     <div class="row">
       <div class="form-group col-sm">
-        <label for="alt3">Alternativa 3</label>
-        <input
-          type="text"
-          class="form-control"
-          id="alt3"
-          name="alt3"
-        />
+        <label for="{{ alt_forms.1.alternativa.id_for_label }}">Alternativa 2</label></br>
+          {{ alt_forms.1.alternativa }}
+          {{ alt_forms.1.media }}
       </div>
     </div>
 
     <div class="row">
       <div class="form-group col-sm">
-        <label for="alt4">Alternativa 4</label>
-        <input
-          type="text"
-          class="form-control"
-          id="alt4"
-          name="alt4"
-        />
+        <label for="{{ alt_forms.2.alternativa.id_for_label }}">Alternativa 3</label></br>
+          {{ alt_forms.2.alternativa }}
+          {{ alt_forms.2.media }}
       </div>
     </div>
+
     <div class="row">
       <div class="form-group col-sm">
-        <label for="alt5">Alternativa 5</label>
-        <input
-          type="text"
-          class="form-control"
-          id="alt5"
-          name="alt5"
-        />
+        <label for="{{ alt_forms.3.alternativa.id_for_label }}">Alternativa 4</label></br>
+          {{ alt_forms.3.alternativa }}
+          {{ alt_forms.3.media }}
       </div>
     </div>
+
+    <div class="row">
+      <div class="form-group col-sm">
+        <label for="{{ alt_forms.4.alternativa.id_for_label }}">Alternativa 5</label></br>
+          {{ alt_forms.4.alternativa }}
+          {{ alt_forms.4.media }}
+      </div>
+    </div>
+
     <button type="submit" class="btn btn-primary btn-lg">Guardar</button>
   </form>
 </div>
 {% endblock %}
 
 {% block scripts %}
+<script src="{% static 'js/templates/pregunta/detalles.js' %}"></script>
 {% endblock %}
