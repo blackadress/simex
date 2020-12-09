@@ -2,6 +2,17 @@
 {% load static %}
 
 {% block styles %}
+<style>
+.ck-editor__editable_inline {
+    min-height: 300px;
+    min-width: 40vw
+}
+
+.row .ck-editor__editable_inline:first-of-type {
+    min-height: 120px;
+    min-width: 40vw
+}
+</style>
 {% endblock %}
 
 {% block content %}
@@ -60,6 +71,7 @@
 {% endblock %}
 
 {% block scripts %}
+<script src="https://cdn.ckeditor.com/ckeditor5/12.3.1/classic/ckeditor.js"></script>
 <script src="{% static 'js/templates/pregunta/nuevo.js' %}"></script>
 {% endblock %}
 

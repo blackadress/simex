@@ -23,6 +23,7 @@ const parse_hora = () => {
   // si fecha today es mayor a fecha entrega, no hay reloj
   // si fecha today es menor hay reloj
   // TODO hacer reloj
+  if (fecha_final.getTime() < today.getTime())
 }
 
 const fecha_texto_a_fecha = (fecha) => {
