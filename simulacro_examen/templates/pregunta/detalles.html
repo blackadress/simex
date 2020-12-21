@@ -13,46 +13,52 @@
     {{ form.media }}
     {{ form.as_p }}
 
-    {% comment %}{{ alt_correcta_form.media }}{% endcomment %}
-    {% comment %}{{ alt_correcta_form.as_p }}{% endcomment %}
+    <div id="valores-alternativas">
+    {% for alternativa in alternativas %}
+    <div id="val-{{ alternativa.id }}">
+      <input type='hidden' id={{alternativa.id}} value='{{ alternativa.alternativa }}'>
+      <input type='hidden' value={{ alternativa.correcta }}>
+    </div>
+    {% endfor %}
+    </div>
 
     <div class="row">
       <div class="form-group col-sm">
         <label for="{{ alt_forms.0.alternativa.id_for_label }}">Alternativa 1 (respuesta correcta aquí)</label></br>
-          {{ alt_forms.0.alternativa }}
           {{ alt_forms.0.media }}
+          {{ alt_forms.0.as_p }}
       </div>
     </div>
 
     <div class="row">
       <div class="form-group col-sm">
         <label for="{{ alt_forms.1.alternativa.id_for_label }}">Alternativa 2</label></br>
-          {{ alt_forms.1.alternativa }}
           {{ alt_forms.1.media }}
+          {{ alt_forms.1.as_p }}
       </div>
     </div>
 
     <div class="row">
       <div class="form-group col-sm">
         <label for="{{ alt_forms.2.alternativa.id_for_label }}">Alternativa 3</label></br>
-          {{ alt_forms.2.alternativa }}
           {{ alt_forms.2.media }}
+          {{ alt_forms.2.as_p }}
       </div>
     </div>
 
     <div class="row">
       <div class="form-group col-sm">
         <label for="{{ alt_forms.3.alternativa.id_for_label }}">Alternativa 4</label></br>
-          {{ alt_forms.3.alternativa }}
           {{ alt_forms.3.media }}
+          {{ alt_forms.3.as_p }}
       </div>
     </div>
 
     <div class="row">
       <div class="form-group col-sm">
         <label for="{{ alt_forms.4.alternativa.id_for_label }}">Alternativa 5</label></br>
-          {{ alt_forms.4.alternativa }}
           {{ alt_forms.4.media }}
+          {{ alt_forms.4.as_p }}
       </div>
     </div>
 

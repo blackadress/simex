@@ -368,6 +368,7 @@ class ViewExamenRendir(View):
         alumno = Alumno.objects.filter(usuario_id=usuario_id)
         duracion_examen_segundos = examen.duracion_minutos * 60
         if len(alumno):
+            print('alumno')
             examen_iniciado = ResultadoExamen.objects.filter(
                 alumno=alumno[0], examen=examen)
             if not len(examen_iniciado):
@@ -391,6 +392,7 @@ class ViewExamenRendir(View):
             # este alumno no estará asignado a nada sino que será
             # un dummy para que los profesores y/o administradores puedan
             # dar examenes
+            print('sin alumno')
             alumno = Alumno.objects.get(id=1)
             examen_iniciado = ResultadoExamen.objects.filter(
                 alumno=alumno, examen=examen)
@@ -713,6 +715,12 @@ class ViewPreguntaFiltrarPages(View):
         return render(request, self.template_name, context)
 
 
+class APIAlternativasPregunta(View):
+    def get(self, request, *args, **kwargs):
+        alt_correcta = Alternativa.objects.get(pregunta=pregunta, correcta=True)
+        alternativas = Alternativa.objects.filter(pregunta=pregunta, correcta=False)
+        return
+
 class ViewPreguntaUD(View):
     template_name = 'pregunta/detalles.html'
 
@@ -727,27 +735,25 @@ class ViewPreguntaUD(View):
         }
         form = PreguntaForm(data)
 
-        alt_correcta = Alternativa.objects.get(pregunta=pregunta, correcta=True)
-        alt_correcta_form = AlternativaForm({ 'alternativa': alt_correcta.alternativa }, prefix='alt_1')
-
-        alternativas = Alternativa.objects.filter(pregunta=pregunta, correcta=False)
+        alternativas = Alternativa.objects.filter(pregunta=pregunta)
 
         alternativas_form = []
+        alt_correcta_form = AlternativaForm(prefix='alt_1')
         alternativas_form.append(alt_correcta_form)
-        alternativa_form = AlternativaForm({ 'alternativa': alternativas[0].alternativa }, prefix='alt_2')
+        alternativa_form = AlternativaForm(prefix='alt_2')
         alternativas_form.append(alternativa_form)
-        alternativa_form = AlternativaForm({ 'alternativa': alternativas[1].alternativa }, prefix='alt_3')
+        alternativa_form = AlternativaForm(prefix='alt_3')
         alternativas_form.append(alternativa_form)
-        alternativa_form = AlternativaForm({ 'alternativa': alternativas[2].alternativa }, prefix='alt_4')
+        alternativa_form = AlternativaForm(prefix='alt_4')
         alternativas_form.append(alternativa_form)
-        alternativa_form = AlternativaForm({ 'alternativa': alternativas[3].alternativa }, prefix='alt_5')
+        alternativa_form = AlternativaForm(prefix='alt_5')
         alternativas_form.append(alternativa_form)
-        print(alternativas_form)
 
         context = {
             'pregunta': pregunta,
             'form': form,
             'alt_forms': alternativas_form,
+            'alternativas': alternativas,
         }
 
         return render(request, self.template_name, context)
