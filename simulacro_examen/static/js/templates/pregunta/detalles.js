@@ -23,12 +23,10 @@ const llenar = (valores) => {
   let contador = 2;
 
   valores.map((valor) => {
-    console.log(valor.correcta)
     if (valor.correcta === 'True') {
       insertIntoCkeditor(valor.alternativa, "id_alt_1-alternativa");
     } else {
       const editor = `id_alt_${contador}-alternativa`
-      console.log(editor)
       insertIntoCkeditor(valor.alternativa, editor);
       contador += 1;
     }
