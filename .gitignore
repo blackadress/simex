@@ -6,3 +6,5 @@
 **/migrations/**
 *.sqlite3
 **/media/**
+**/staticfiles/**
+**/.vim/**
