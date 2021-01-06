@@ -1,6 +1,7 @@
-import json
 import datetime
+import json
 import pytz
+import random
 
 from django.core import serializers
 from django.core.paginator import Paginator
@@ -367,8 +368,7 @@ class ViewExamenRendir(View):
         usuario_id = request.user.id
         alumno = Alumno.objects.filter(usuario_id=usuario_id)
         duracion_examen_segundos = examen.duracion_minutos * 60
-        if len(alumno):
-            print('alumno')
+        if len(alumno) == 1:
             examen_iniciado = ResultadoExamen.objects.filter(
                 alumno=alumno[0], examen=examen)
             if not len(examen_iniciado):
@@ -425,6 +425,8 @@ class ViewExamenRendir(View):
             preguntas_por_curso[pregunta.curso.id] += [pregunta]
 
         cursos = list(preguntas_por_curso.keys())
+        for curso in cursos:
+            random.shuffle(preguntas_por_curso[curso])
 
         context = {
             'examen': examen,
@@ -434,6 +436,10 @@ class ViewExamenRendir(View):
             'hora_maxima_entrega': hora_maxima_entrega,
         }
         return render(request, self.template_name, context)
+
+    def post(self, request, *args, **kwargs):
+        return JsonResponse({'exito': True})
+
 
 
 class ViewExamenListar(ListView):
