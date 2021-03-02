@@ -446,6 +446,11 @@ class ViewExamenRendir(View):
         examen = Examen.objects.get(pk=examen_id)
         usuario_id = request.user.id
         alumno = Alumno.objects.filter(usuario_id=usuario_id)
+        duracion_examen_segundos = examen.duracion_minutos * 60
+        print(request.POST)
+        respuestas_id_preguntas = list(request.POST.keys())
+        respuestas_id_preguntas.pop(0)
+        print(respuestas_id_preguntas)
 
         # si existe alumno para el usuario
         if len(alumno) == 1:
@@ -472,6 +477,7 @@ class ViewExamenRendir(View):
             else:
                 examen_iniciado = examen_iniciado[0]
                 tiempo_examen = datetime.datetime.utcnow().replace(tzinfo=pytz.utc) - examen_iniciado.inicio
+                print(tiempo_examen)
                 hora_maxima_entrega = examen_iniciado.inicio + datetime.timedelta(0, examen.duracion_minutos * 60)
                 if tiempo_examen.seconds >= duracion_examen_segundos:
                     context = {
