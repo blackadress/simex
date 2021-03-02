@@ -9,7 +9,18 @@ window.onload = () => {
 };
 
 const send_examen = () => {
-  const form = document.getElementById("formulario_examen");
+  const form = new FormData(document.getElementById("formulario_examen"))
+  console.log(form)
+
+  const csrf_token = document.getElementsByName('csrfmiddlewaretoken').value
+  const url = window.location.href
+
+  const headers = { "X-CSRFToken": csrf_token }
+  fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: form,
+  })
 };
 
 const reloj = () => {

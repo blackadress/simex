@@ -368,6 +368,7 @@ class ViewExamenRendir(View):
         usuario_id = request.user.id
         alumno = Alumno.objects.filter(usuario_id=usuario_id)
         duracion_examen_segundos = examen.duracion_minutos * 60
+        # si existe alumno para el usuario
         if len(alumno) == 1:
             examen_iniciado = ResultadoExamen.objects.filter(
                 alumno=alumno[0], examen=examen)
@@ -387,6 +388,8 @@ class ViewExamenRendir(View):
                         'hora_maxima_entrega': hora_maxima_entrega,
                     }
                     return render(request, self.template_name, context)
+
+        # si el usuario no es alumno (es profesor o admin)
         else:
             # se necesita crear un alumno con id=1 para iniciar el programa
             # este alumno no estará asignado a nada sino que será
@@ -400,6 +403,7 @@ class ViewExamenRendir(View):
                 examen_iniciado = ResultadoExamen.objects.create(
                     duracion_segundos=0, nota_obtenida=0.0, puntaje_obtenido=0.0,
                     examen=examen, alumno=alumno)
+                hora_maxima_entrega = examen_iniciado.inicio + datetime.timedelta(0, examen.duracion_minutos * 60)
             else:
                 examen_iniciado = examen_iniciado[0]
                 tiempo_examen = datetime.datetime.utcnow().replace(tzinfo=pytz.utc) - examen_iniciado.inicio
@@ -438,6 +442,46 @@ class ViewExamenRendir(View):
         return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
+        examen_id = kwargs['examen_id']
+        examen = Examen.objects.get(pk=examen_id)
+        usuario_id = request.user.id
+        alumno = Alumno.objects.filter(usuario_id=usuario_id)
+
+        # si existe alumno para el usuario
+        if len(alumno) == 1:
+            examen_iniciado = ResultadoExamen.objects.filter(
+                alumno=alumno[0], examen=examen)
+            examen_iniciado = examen_iniciado[0]
+            tiempo_examen = datetime.datetime.utcnow().replace(tzinfo=pytz.utc) - examen_iniciado.inicio
+
+        # si el usuario no es alumno (es profesor o admin)
+        else:
+            # se necesita crear un alumno con id=1 para iniciar el programa
+            # este alumno no estará asignado a nada sino que será
+            # un dummy para que los profesores y/o administradores puedan
+            # dar examenes
+            print('sin alumno')
+            alumno = Alumno.objects.get(id=1)
+            examen_iniciado = ResultadoExamen.objects.filter(
+                alumno=alumno, examen=examen)
+            if not len(examen_iniciado):
+                examen_iniciado = ResultadoExamen.objects.create(
+                    duracion_segundos=0, nota_obtenida=0.0, puntaje_obtenido=0.0,
+                    examen=examen, alumno=alumno)
+                hora_maxima_entrega = examen_iniciado.inicio + datetime.timedelta(0, examen.duracion_minutos * 60)
+            else:
+                examen_iniciado = examen_iniciado[0]
+                tiempo_examen = datetime.datetime.utcnow().replace(tzinfo=pytz.utc) - examen_iniciado.inicio
+                hora_maxima_entrega = examen_iniciado.inicio + datetime.timedelta(0, examen.duracion_minutos * 60)
+                if tiempo_examen.seconds >= duracion_examen_segundos:
+                    context = {
+                        'examen': examen,
+                        'msg_no_valido': 'no puedes volver a dar el mismo examen',
+                        'examen_iniciado': examen_iniciado,
+                        'hora_maxima_entrega': hora_maxima_entrega,
+                    }
+                    return render(request, self.template_name, context)
+
         return JsonResponse({'exito': True})
 
 
