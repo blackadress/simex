@@ -26,12 +26,13 @@ const send_examen = () => {
 const reloj = () => {
   const inicio = document.querySelector("#inicio_examen").innerHTML;
   const final = document.querySelector("#entrega_examen").innerHTML;
-  //console.log(final)
 
   //const fecha_inicio = fecha_texto_a_fecha(inicio);
   const fecha_final = fecha_texto_a_fecha(final);
 
   let today = new Date();
+  console.log(fecha_final)
+  console.log(today)
   // si fecha today es mayor a fecha entrega, no hay reloj
   // si fecha today es menor hay reloj
   if (fecha_final.getTime() < today.getTime()) {
@@ -78,7 +79,7 @@ const fecha_texto_a_fecha = (fecha) => {
   let minutes = re_minutes.exec(separado[2])[1];
 
   let ampm = separado[2].split(" ").pop();
-  if (ampm == "p.m.") {
+  if (ampm == "p.m." && hour != 12) {
     hour += 12;
   }
 
