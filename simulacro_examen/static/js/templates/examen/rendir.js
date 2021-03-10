@@ -10,7 +10,6 @@ window.onload = () => {
 
 const send_examen = () => {
   const form = new FormData(document.getElementById("formulario_examen"))
-  console.log(form.values())
 
   const csrf_token = document.getElementsByName('csrfmiddlewaretoken').value
   const url = window.location.href

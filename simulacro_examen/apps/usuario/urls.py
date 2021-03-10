@@ -16,4 +16,6 @@ urlpatterns = [
     path('docente-nuevo/', views.ViewDocenteNuevo.as_view(), name='view_docente_nuevo'),
     path('docente-listar/', views.ViewDocenteListar.as_view(), name='view_docente_listar'),
     path('docente-listar/<int:pk>/', views.ViewDocenteUD.as_view(), name='view_docente_UD'),
+
+    path('api/logout/', views.APILogout.as_view(), name='api_logout'),
 ]

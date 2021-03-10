@@ -943,6 +943,12 @@ def get_item(dictionary, key):
 def get_nombre_curso(preguntas_curso, key):
     return preguntas_curso[key][0].curso.nombre
 
+@register.filter
+def shuffle(arg):
+    tmp = list(arg)[:]
+    random.shuffle(tmp)
+    return tmp
+
 @method_decorator(csrf_exempt, name='dispatch')
 class APIUploadImg(View):
     def post(self, request, *args, **kwargs):

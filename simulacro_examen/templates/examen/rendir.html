@@ -28,7 +28,7 @@
   {% for pregunta in preguntas|get_item:curso %}
 
       {{ pregunta.contenido|safe }}
-      {% for alternativa in pregunta.alternativas.all %}
+      {% for alternativa in pregunta.alternativas.all|shuffle %}
         <div class="form-check form-check-inline">
           <input class="form-check-input" type="radio" name="alternativa-{{pregunta.id}}" id="{{ alternativa.id }}" value="{{ alternativa.id }}">
           <label class="form-check-label" for="{{ alternativa.id }}">

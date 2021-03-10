@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
-from django.shortcuts import render
+from django.contrib.auth import logout
+from django.shortcuts import render, redirect
 from django.views import View
 from django.views.generic import ListView
 
@@ -179,6 +180,15 @@ class ViewDocenteUD(View):
         docente = Docente.objects.delete(pk=pk)
         context = {}
         return render(request, self.template_name, context)
+
+class APILogout(View):
+
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            logout(request)
+        return redirect('/')
+
+
 
 from django.template.defaulttags import register
 
