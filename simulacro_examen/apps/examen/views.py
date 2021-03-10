@@ -2,6 +2,7 @@ import datetime
 import json
 import pytz
 import random
+import re
 
 from django.core import serializers
 from django.core.paginator import Paginator
@@ -450,7 +451,31 @@ class ViewExamenRendir(View):
         print(request.POST)
         respuestas_id_preguntas = list(request.POST.keys())
         respuestas_id_preguntas.pop(0)
+        respuestas_id_preguntas = [re.search('\d+', pregunta_id).group(0) for pregunta_id in respuestas_id_preguntas]
         print(respuestas_id_preguntas)
+        # se puede optimizar las consultas si se en el request.POST
+        # se agrupan las preguntas por curso, de esta manera no tenemos que 
+        # consultar el valor para cada pregunta. En estos momentos
+        # se tiene que buscar en la BD por cada pregunta para saber el valor
+        # en puntaje de cada una (nada óptimo)
+        puntaje = 0
+        nota_sin_escalar = 0
+        nota_escalada = 0
+        cantidad_preguntas = len(respuestas_id_preguntas)
+        for respuesta_pregunta in respuestas_id_preguntas:
+            pregunta = Pregunta.objects.get(id=respuesta_pregunta)
+            curso_examen = CursoExamen.objects.get(curso_id=pregunta.curso.id, examen=examen_id)
+            alt_id = request.POST[respuesta_pregunta]
+            alternativa = Alternativa.objects.get(id=alt_id)
+            if alternativa.correcta:
+                puntaje += curso_examen.favor
+                nota_sin_escalar += 1
+            elif not alternativa.correcta:
+                puntaje -= curso_examen.contra
+            else:
+                puntaje += curso_examen.sin_responder
+
+        nota_escalada = (20 * nota_sin_escalar) / cantidad_preguntas
 
         # si existe alumno para el usuario
         if len(alumno) == 1:
@@ -458,6 +483,10 @@ class ViewExamenRendir(View):
                 alumno=alumno[0], examen=examen)
             examen_iniciado = examen_iniciado[0]
             tiempo_examen = datetime.datetime.utcnow().replace(tzinfo=pytz.utc) - examen_iniciado.inicio
+            examen_iniciado.puntaje_obtenido = puntaje
+            examen_iniciado.nota_obtenida = nota_escalada
+            examen_iniciado.final = tiempo_examen
+            examen_iniciado.save()
 
         # si el usuario no es alumno (es profesor o admin)
         else:
@@ -469,26 +498,14 @@ class ViewExamenRendir(View):
             alumno = Alumno.objects.get(id=1)
             examen_iniciado = ResultadoExamen.objects.filter(
                 alumno=alumno, examen=examen)
-            if not len(examen_iniciado):
-                examen_iniciado = ResultadoExamen.objects.create(
-                    duracion_segundos=0, nota_obtenida=0.0, puntaje_obtenido=0.0,
-                    examen=examen, alumno=alumno)
-                hora_maxima_entrega = examen_iniciado.inicio + datetime.timedelta(0, examen.duracion_minutos * 60)
-            else:
-                examen_iniciado = examen_iniciado[0]
-                tiempo_examen = datetime.datetime.utcnow().replace(tzinfo=pytz.utc) - examen_iniciado.inicio
-                print(tiempo_examen)
-                hora_maxima_entrega = examen_iniciado.inicio + datetime.timedelta(0, examen.duracion_minutos * 60)
-                if tiempo_examen.seconds >= duracion_examen_segundos:
-                    context = {
-                        'examen': examen,
-                        'msg_no_valido': 'no puedes volver a dar el mismo examen',
-                        'examen_iniciado': examen_iniciado,
-                        'hora_maxima_entrega': hora_maxima_entrega,
-                    }
-                    return render(request, self.template_name, context)
+            tiempo_examen = datetime.datetime.utcnow().replace(tzinfo=pytz.utc) - examen_iniciado.inicio
+            examen_iniciado.puntaje_obtenido = puntaje
+            examen_iniciado.nota_obtenida = nota_escalada
+            examen_iniciado.final = tiempo_examen
+            examen_iniciado.save()
 
-        return JsonResponse({'exito': True})
+        return redirect('examen:view_resultado_listar')
+        # return JsonResponse({'exito': True})
 
 
 
