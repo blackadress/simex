@@ -325,10 +325,12 @@ class ViewExamenNuevo(View):
         duracion_minutos = form['duracion']
         nota_maxima = form['nota_maxima']
         puntaje_maximo = form['puntaje_maximo']
+        print(nota_maxima, puntaje_maximo)
         universidad_id = form['universidad']
         examen = Examen.objects.create(
             nombre_examen=nombre_examen,
             tipo_examen=tipo_examen,
+            duracion_minutos=duracion_minutos,
             nota_maxima=nota_maxima,
             puntaje_maximo=puntaje_maximo,
             universidad_id=universidad_id)
@@ -377,10 +379,11 @@ class ViewExamenRendir(View):
                 examen_iniciado = ResultadoExamen.objects.create(
                     duracion_segundos=0, nota_obtenida=0.0, puntaje_obtenido=0.0,
                     examen=examen, alumno=alumno[0])
+                hora_maxima_entrega = examen_iniciado.inicio + datetime.timedelta(0, examen.duracion_minutos * 60)
             else:
                 examen_iniciado = examen_iniciado[0]
                 tiempo_examen = datetime.datetime.utcnow().replace(tzinfo=pytz.utc) - examen_iniciado.inicio
-                hora_maxima_entrega = examen_iniciado + datetime.timedelta(0, examen.duracion_minutos)
+                hora_maxima_entrega = examen_iniciado.inicio + datetime.timedelta(0, examen.duracion_minutos * 60)
                 if tiempo_examen.seconds >= duracion_examen_segundos:
                     context = {
                         'examen': examen,
@@ -849,7 +852,11 @@ class APIGetPreguntasByDocenteCursoPregunta(View):
         docente_pk = kwargs['docente_pk']
         curso_pk = kwargs['curso_pk']
         nombre_pregunta = kwargs['nombre_pregunta']
-        preguntas = Pregunta.objects.all()
+        examen_id = kwargs['examen_id']
+
+        universidad = Examen.objects.get(id=examen_id).universidad
+        cursos_universidad = Curso.objects.filter(universidad=universidad)
+        preguntas = Pregunta.objects.filter(curso__in=cursos_universidad)
 
         if docente_pk != 0:
             preguntas = preguntas.filter(docente_id=docente_pk)

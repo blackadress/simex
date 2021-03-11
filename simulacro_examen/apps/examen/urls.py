@@ -96,7 +96,7 @@ urlpatterns = [
          views.APIGetFacultadesByUniversidadId.as_view(), name='api_get_facultades_by_universidad'),
 
     # PREGUNTAS
-    path('api/pregunta-buscar/<int:docente_pk>/<int:curso_pk>/<str:nombre_pregunta>/',
+    path('api/pregunta-buscar/<int:docente_pk>/<int:curso_pk>/<str:nombre_pregunta>/<int:examen_id>/',
          views.APIGetPreguntasByDocenteCursoPregunta.as_view(), name='api_get_preguntas_by_docente_curso_pregunta')
 
 

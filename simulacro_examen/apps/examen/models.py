@@ -51,8 +51,8 @@ class Examen(models.Model):
     nombre_examen = models.CharField(max_length=200, null=False)
     tipo_examen = models.CharField(max_length=200, null=False)
     duracion_minutos = models.IntegerField(default=60)
-    nota_maxima = models.DecimalField(max_digits=6, decimal_places=3)
-    puntaje_maximo = models.DecimalField(max_digits=6, decimal_places=3)
+    nota_maxima = models.DecimalField(max_digits=8, decimal_places=3)
+    puntaje_maximo = models.DecimalField(max_digits=8, decimal_places=3)
 
     universidad = models.ForeignKey(
         "Universidad", on_delete=models.SET_NULL, null=True)
@@ -136,8 +136,8 @@ class Alternativa(models.Model):
 
 class ResultadoExamen(models.Model):
     duracion_segundos = models.IntegerField()
-    nota_obtenida = models.DecimalField(max_digits=7, decimal_places=3)
-    puntaje_obtenido = models.DecimalField(max_digits=7, decimal_places=3)
+    nota_obtenida = models.DecimalField(max_digits=8, decimal_places=3)
+    puntaje_obtenido = models.DecimalField(max_digits=8, decimal_places=3)
     inicio = models.DateTimeField(auto_now_add=True)
     final = models.DateTimeField(null=True)
     acabado = models.BooleanField(default=False)

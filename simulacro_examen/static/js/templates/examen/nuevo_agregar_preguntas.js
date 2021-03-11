@@ -153,9 +153,10 @@ const getPreguntasFromSearch = () => {
   const docente_pk = document.getElementById("docente").value;
   const curso_pk = document.getElementById("curso_buscar").value;
   let nombre_pregunta = document.getElementById("nombre_pregunta").value;
+  const examen_id = re_examen_id.exec(document.location.href)[1]
   nombre_pregunta = nombre_pregunta === "" ? "0" : nombre_pregunta;
 
-  const url = `/examen/api/pregunta-buscar/${docente_pk}/${curso_pk}/${nombre_pregunta}/`;
+  const url = `/examen/api/pregunta-buscar/${docente_pk}/${curso_pk}/${nombre_pregunta}/${examen_id}/`;
   return fetch(url).then((res) => res.json());
 };
 
