@@ -18,6 +18,10 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.cache import never_cache
+# import ckeditor_uploader
+from ckeditor_uploader import views as ckviews
 
 from apps.examen import views
 
@@ -26,5 +30,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('usuario/', include('apps.usuario.urls')),
     path('examen/', include('apps.examen.urls')),
-    path('ckeditor', include('ckeditor_uploader.urls')),
-] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
+    path('ckeditor/upload/', login_required(ckviews.upload), name='ckeditor_upload'),
+    path('ckeditor/browse/', never_cache(login_required(ckviews.browse)), name='ckeditor_browse'),
+    # path('ckeditor', include('ckeditor_uploader.urls')),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

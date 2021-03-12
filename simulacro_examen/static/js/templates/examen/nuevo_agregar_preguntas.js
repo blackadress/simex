@@ -153,6 +153,7 @@ const getPreguntasFromSearch = () => {
   const docente_pk = document.getElementById("docente").value;
   const curso_pk = document.getElementById("curso_buscar").value;
   let nombre_pregunta = document.getElementById("nombre_pregunta").value;
+  const re_examen_id = /preguntas\/(\d+)\//
   const examen_id = re_examen_id.exec(document.location.href)[1]
   nombre_pregunta = nombre_pregunta === "" ? "0" : nombre_pregunta;
 

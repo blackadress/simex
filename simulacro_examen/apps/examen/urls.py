@@ -64,7 +64,7 @@ urlpatterns = [
          name='view_resultado_lista_filtrar'),
     path('resultado-buscar/<int:universidad_id>/',
          views.ViewResultadoFiltrarPages.as_view(), name='view_resultado_filtrar_pages'),
-    path('resultado-listar/<int:alumno_pk>/',
+    path('resultado-listar/<int:resultado_pk>/',
          views.ViewResultadoUD.as_view(), name='view_resultado_UD'),
 
     path('universidad-nuevo/', views.ViewUniversidadNuevo.as_view(),

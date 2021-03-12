@@ -23,11 +23,11 @@
           <td>{{ resultado.examen.universidad.nombre }}</td>
           <td>{{ resultado.examen.nombre_examen }}</td>
           <td>{{ resultado.alumno.usuario.appellido_paterno|upper }} {{ resultado.alumno.usuario.appellido_materno|upper }} {{ resultado.alumno.usuario.nombres }}</td>
-          <td>{{ resultado.nombres }}</td>
-          <td>{{ resultado.correo_electronico }}</td>
-          <td>{{ resultado.celular }}</td>
+          <td>{{ resultado.duracion_segundos }}</td>
+          <td>{{ resultado.nota_obtenida }}</td>
+          <td>{{ resultado.puntaje_obtenido }}</td>
           <td>
-            <a class="btn btn-warning" href="{% url 'usuario:view_resultado_UD' pk=resultado.id %}" role="button">
+            <a class="btn btn-warning" href="{% url 'examen:view_resultado_UD' resultado_pk=resultado.id %}" role="button">
               <i class="fas fa-fw fa-pen"></i>
               Detalles
             </a>

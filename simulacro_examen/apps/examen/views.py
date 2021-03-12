@@ -940,7 +940,7 @@ class ViewResultadoUD(View):
     template_name = 'resultado/detalles.html'
 
     def get(self, request, *args, **kwargs):
-        pk = kwargs['pk']
+        pk = kwargs['resultado_pk']
         resultado = ResultadoExamen.objects.get(pk=pk)
         context = {
             'resultado': resultado

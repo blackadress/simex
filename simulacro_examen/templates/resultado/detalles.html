@@ -4,7 +4,16 @@
 {% endblock %}
 
 {% block content %}
-<h2>asdf</h2>
+<h2>Resultado Examen {{ resultado.examen.nombre_examen }} - {{ resultado.examen.universidad.siglas }}</h2>
+
+<h4 style="font-size: 2em">Nota Obtenida</h4>
+<p style="font-size: 1.5em">{{ resultado.nota_obtenida }}</p>
+<h4 style="font-size: 2em">Puntaje Obtenido</h4>
+<p style="font-size: 1.5em">{{ resultado.puntaje_obtenido }}</p>
+<h4 style="font-size: 2em">Hora inicio</h4>
+<p style="font-size: 1.5em">{{ resultado.inicio }}</p>
+<h4 style="font-size: 2em">Hora finalización</h4>
+<p style="font-size: 1.5em">{{ resultado.final }}</p>
 {% endblock %}
 
 {% block scripts %}
